@@ -8,6 +8,7 @@ function ShowSelector(props) {
         <option value="Morning Becomes Eclectic">Morning Becomes Eclectic</option>
         <option value="FREAKS ONLY">Freaks Only</option>
       </select>
+      <button type="button">Find Songs</button>
     </div>
   );
 }
