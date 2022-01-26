@@ -7,6 +7,20 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
   },
+  devServer: {
+    host: 'localhost',
+    port: 8080,
+    hot: true,
+    historyApiFallback: true,
+    headers: { 'Access-Control-Allow-Origin': '*' },
+    proxy: {
+      '/api': 'http://localhost:3000/',
+      // headers: {
+      //   Connection: 'keep-alive',
+      // },
+      // followRedirects: true,
+    },
+  },
   module: {
     rules: [
       {

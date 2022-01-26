@@ -20,19 +20,23 @@ class App extends Component {
     this.getSongs = this.getSongs.bind(this);
   }
 
+  componentDidMount() {
+    this.getSongs('Morning Becomes Eclectic', 2022, 1, 24);
+  }
+
   getSongs(showName, year, month, day) {
-    const data = {
+    const body = {
       showName,
       year,
       month,
       day,
     };
-    fetch('/api', {
+    fetch('/api/', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'Application/JSON',
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(body),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -41,10 +45,6 @@ class App extends Component {
       .catch((error) => {
         console.error('Error:', error);
       });
-  }
-
-  componentDidMount() {
-    this.getSongs('Morning Becomes Eclectic', 2022, 1, 24);
   }
 
   render() {
