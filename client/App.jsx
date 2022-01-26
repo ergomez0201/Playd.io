@@ -17,34 +17,34 @@ class App extends Component {
       songsList: [],
     };
     // console.log(this.state);
-    this.getSongs = this.getSongs.bind(this);
+    // this.getSongs = this.getSongs.bind(this);
   }
 
   componentDidMount() {
-    this.getSongs('Morning Becomes Eclectic', 2022, 1, 24);
-  }
-
-  getSongs(showName, year, month, day) {
-    const body = {
-      showName,
-      year,
-      month,
-      day,
-    };
-    fetch('/api/', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'Application/JSON',
-      },
-      body: JSON.stringify(body),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log('Success:', data);
+    function getSongs(showName, year, month, day) {
+      const body = {
+        showName,
+        year,
+        month,
+        day,
+      };
+      fetch('/api/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'Application/JSON',
+        },
+        body: JSON.stringify(body),
       })
-      .catch((error) => {
-        console.error('Error:', error);
-      });
+        .then((response) => response.json())
+        .then((data) => {
+          console.log('Success:', data);
+        })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+    }
+
+    getSongs('Morning Becomes Eclectic', 2022, 1, 24);
   }
 
   render() {
