@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 
 import ShowSelector from './components/showSelector';
+import ShowDisplay from './components/showDisplay';
 import './stylesheets/styles.css';
+import SongsDisplay from './components/songsDisplay';
 
 class App extends Component {
   constructor(props) {
@@ -17,41 +19,55 @@ class App extends Component {
       songsList: [],
     };
     // console.log(this.state);
-    // this.getSongs = this.getSongs.bind(this);
+    this.getSongs = this.getSongs.bind(this);
   }
 
-  componentDidMount() {
-    function getSongs(showName, year, month, day) {
-      const body = {
-        showName,
-        year,
-        month,
-        day,
-      };
-      fetch('/api/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'Application/JSON',
-        },
-        body: JSON.stringify(body),
-      })
-        .then((response) => response.json())
-        .then((data) => {
-          console.log('Success:', data);
-        })
-        .catch((error) => {
-          console.error('Error:', error);
+  getSongs(showName, year, month, day) {
+    const body = {
+      showName,
+      year,
+      month,
+      day,
+    };
+    fetch('/api/', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'Application/JSON',
+      },
+      body: JSON.stringify(body),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        const tracksArray = data.trackData.tracks;
+        return this.setState({
+          totalSongs: tracksArray.length,
+          showHost: data.radioShow[0].host,
+          showTitle: showName,
+          showDate: [year, month, day],
+          songsList: tracksArray,
         });
-    }
-
-    getSongs('Morning Becomes Eclectic', 2022, 1, 24);
+      })
+      .then((data) => {
+        console.log('state: ', this.state);
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
   }
+
+  // getSongs('Morning Becomes Eclectic', 2022, 1, 24);
 
   render() {
     return (
       <div>
         <h1>Welcome to the App</h1>
-        <ShowSelector />
+        <ShowSelector getSongs={this.getSongs} />
+        <ShowDisplay
+          showTitle={this.state.showTitle}
+          showHost={this.state.showHost}
+          showDate={this.state.showDate}
+        />
+        <SongsDisplay />
       </div>
     );
   }
