@@ -1,8 +1,12 @@
+const { response } = require('express');
 const express = require('express');
+const cors = require('cors');
 
 const router = express.Router();
 const kcrwController = require('../controllers/kcrwController');
 const spotifyController = require('../controllers/spotifyController');
+
+router.use(cors());
 
 router.post(
   '/',
@@ -25,9 +29,14 @@ router.get(
   '/callback',
   spotifyController.getUserTokens,
   spotifyController.getUserID,
+  // spotifyController.createUserPlaylist,
   (req, res) => {
     res.status(200).send('this is the response from the callback route');
   }
+);
+
+router.post('/playlist', spotifyController.createUserPlaylist, (req, res) =>
+  res.status(200).send('this is from the playlist middleware')
 );
 
 module.exports = router;

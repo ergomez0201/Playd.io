@@ -4,6 +4,45 @@ import Songs from './songs';
 class SongsDisplay extends Component {
   constructor(props) {
     super(props);
+
+    this.createPlaylist = this.createPlaylist.bind(this);
+    this.login = this.login.bind(this);
+  }
+
+  // create a click handler
+  login() {
+    window.open('http://localhost:8080/api/spotify', '_blank');
+  }
+
+  createPlaylist() {
+    // pull out a string of songIDs that you will pass to fetch request
+    const songURIArray = [];
+    this.props.songsList.forEach((song) => {
+      songURIArray.push(song.uri);
+    });
+
+    console.log('button pushed');
+
+    const body = {
+      songURIArray,
+      showTitle: this.props.showTitle,
+      showDate: this.props.showDate,
+    };
+
+    fetch('/api/playlist', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'Application/JSON',
+      },
+      body: JSON.stringify(body),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Success!, you have created a spotify playlist');
+      })
+      .catch((error) => {
+        console.error('Error:', error);
+      });
   }
 
   render() {
@@ -33,7 +72,12 @@ class SongsDisplay extends Component {
     return (
       <div className="songsDisplay">
         <p id="totalSongs">Total Songs in Playlist: {this.props.totalSongs}</p>
-        <button type="button">Create Spotify Playlist</button>
+        <button type="button" onClick={this.login}>
+          Login to Spotify
+        </button>
+        <button type="button" onClick={this.createPlaylist}>
+          Create Spotify Playlist
+        </button>
         {songsData}
       </div>
     );

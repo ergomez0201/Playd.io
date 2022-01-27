@@ -6,6 +6,10 @@ const session = require('express-session');
 
 const app = express();
 
+// global middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.use(cors());
 app.use(cookieParser());
 app.use(
@@ -20,10 +24,6 @@ app.use(
 const PORT = 3000;
 
 const apiRouter = require('./routes/api');
-
-// global middleware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => res.send('Hello from inside the server!'));
 app.use('/api', apiRouter);

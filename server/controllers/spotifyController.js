@@ -69,6 +69,7 @@ spotifyController.getClientCredentials = (req, res, next) => {
 spotifyController.spotifyRedirect = (req, res, next) => {
   // use session object to persist req body during redirect
   // res.session.playlistData = req.body;
+  console.log('this is the req body: ', req.body);
 
   const state = generateRandomString(16);
   res.cookie(stateKey, state);
@@ -120,7 +121,10 @@ spotifyController.getUserTokens = (req, res, next) => {
       .then((response) => {
         res.locals.accessToken = response.data.access_token;
         res.locals.refreshToken = response.data.refresh_token;
-        console.log(res.locals);
+        console.log('this is res locals: ', res.locals);
+
+        // temporary - send access tokens to browser
+
         return next();
       })
       .catch((error) => console.log(error));
@@ -135,12 +139,38 @@ spotifyController.getUserID = (req, res, next) => {
       },
     })
     .then((response) => {
-      res.locals.id = response.data.id;
-      console.log('this is the user id: ', res.locals.id);
+      const userID = response.data.id;
+      const { accessToken } = res.locals;
+      const { refreshToken } = res.locals;
+      console.log('this is the user id: ', userID);
       // console.log('this is in the session(should be empty): ', req.session.playlistData);
-      return next();
+
+      res.redirect(
+        `/#${new URLSearchParams({
+          userID,
+          accessToken,
+          refreshToken,
+        }).toString()}`
+      );
+
+      // return next();
     })
     .catch((error) => console.log(error));
+};
+
+spotifyController.createUserPlaylist = (req, res, next) => {
+  axios({
+    url: `https://api.spotify.com/v1/users/${res.locals.id}/playlists`,
+    method: 'post',
+    headers: {
+      Authorization: `Bearer ${res.locals.accessToken}`,
+    },
+    data: {
+      name: 'KCRW Playlist',
+      description: 'Songs played on Morning Becomes Eclecting',
+      public: false,
+    },
+  }).then((data) => next());
 };
 
 module.exports = spotifyController;

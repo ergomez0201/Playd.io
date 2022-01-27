@@ -75,7 +75,12 @@ class App extends Component {
           />
         </div>
         <div className="songsDisplayDiv">
-          <SongsDisplay totalSongs={this.state.totalSongs} songsList={this.state.songsList} />
+          <SongsDisplay
+            totalSongs={this.state.totalSongs}
+            songsList={this.state.songsList}
+            showTitle={this.state.showTitle}
+            showDate={this.state.showDate}
+          />
         </div>
       </main>
     );
