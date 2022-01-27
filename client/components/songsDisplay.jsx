@@ -22,11 +22,17 @@ class SongsDisplay extends Component {
     });
 
     console.log('button pushed');
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const params = Object.fromEntries(urlSearchParams.entries());
+    // console.log(params);
 
     const body = {
       songURIArray,
       showTitle: this.props.showTitle,
       showDate: this.props.showDate,
+      userID: params.userID,
+      accessToken: params.accessToken,
+      refreshToken: params.refreshToken,
     };
 
     fetch('/api/playlist', {

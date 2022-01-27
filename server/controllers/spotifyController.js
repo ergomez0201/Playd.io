@@ -146,7 +146,7 @@ spotifyController.getUserID = (req, res, next) => {
       // console.log('this is in the session(should be empty): ', req.session.playlistData);
 
       res.redirect(
-        `/#${new URLSearchParams({
+        `/?${new URLSearchParams({
           userID,
           accessToken,
           refreshToken,
@@ -159,18 +159,41 @@ spotifyController.getUserID = (req, res, next) => {
 };
 
 spotifyController.createUserPlaylist = (req, res, next) => {
+  console.log('this is the body: ', req.body);
+  const { songURIArray, showTitle, showDate, userID, accessToken, refreshToken } = req.body;
+  const [year, month, day] = showDate;
+  const date = new Date(year, month - 1, day);
+
   axios({
-    url: `https://api.spotify.com/v1/users/${res.locals.id}/playlists`,
+    url: `https://api.spotify.com/v1/users/${userID}/playlists`,
     method: 'post',
     headers: {
-      Authorization: `Bearer ${res.locals.accessToken}`,
+      Authorization: `Bearer ${accessToken}`,
     },
     data: {
-      name: 'KCRW Playlist',
-      description: 'Songs played on Morning Becomes Eclecting',
+      name: `${showTitle} - ${date.toDateString()}`,
+      description: 'Songs played on KCRW Radio Shows',
       public: false,
     },
-  }).then((data) => next());
+  })
+    .then((response) => {
+      console.log(response.data);
+      const playlistID = response.data.id;
+
+      axios({
+        url: `	https://api.spotify.com/v1/playlists/${playlistID}/tracks`,
+        method: 'post',
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        data: {
+          uris: songURIArray,
+        },
+      })
+        .then((response) => next())
+        .catch((error) => console.log(error));
+    })
+    .catch((error) => console.log(error));
 };
 
 module.exports = spotifyController;
