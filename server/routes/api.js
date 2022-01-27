@@ -16,4 +16,18 @@ router.post(
   }
 );
 
+// connecting user to spotify
+router.get('/spotify', spotifyController.spotifyRedirect, (req, res) => {
+  res.status(200).send('You are attempting to connect to spotify');
+});
+
+router.get(
+  '/callback',
+  spotifyController.getUserTokens,
+  spotifyController.getUserID,
+  (req, res) => {
+    res.status(200).send('this is the response from the callback route');
+  }
+);
+
 module.exports = router;
