@@ -67,7 +67,7 @@ class App extends Component {
           showHost={this.state.showHost}
           showDate={this.state.showDate}
         />
-        <SongsDisplay />
+        <SongsDisplay totalSongs={this.state.totalSongs} songsList={this.state.songsList} />
       </div>
     );
   }
