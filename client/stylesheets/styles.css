@@ -1,5 +1,12 @@
 /* reset styles */
 
+/* 
+Spotify Colors
+Dark Green: #1DB954
+White: #FFFFFF
+Black: #191414
+*/
+
 *,
 *::before,
 *::after {
@@ -10,8 +17,69 @@
 
 html {
   box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.header {
+  display: flex;
+  align-items: flex-end;
+  color: #191414;
 }
 
 h1 {
-  color: blue;
+  margin: 1rem;
+}
+
+h3 {
+  margin: 1rem;
+}
+
+#radioShow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: .5rem;
+}
+
+#radioShow select {
+  font-size: 1rem;
+}
+
+#dateForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: .5rem;
+}
+
+#dateForm p {
+  text-align: center;
+  margin-top: 1rem;
+}
+
+input {
+  margin: .5rem;
+}
+
+.showDisplayDiv {
+  margin: 1rem;
+  display: flex;
+  justify-content: center;
+}
+
+.songsDisplayDiv {
+  margin: 1rem;
+}
+
+.songDetail {
+  margin: 1rem;
+  display: flex;
+  align-items: flex-end;
+  background-color: whitesmoke;
+}
+
+.songAndArtist {
+  width: 50%;
+  margin-left: 1rem;
+  margin-right: 1rem;
 }

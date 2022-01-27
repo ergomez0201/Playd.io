@@ -59,16 +59,25 @@ class App extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Welcome to the App</h1>
-        <ShowSelector getSongs={this.getSongs} />
-        <ShowDisplay
-          showTitle={this.state.showTitle}
-          showHost={this.state.showHost}
-          showDate={this.state.showDate}
-        />
-        <SongsDisplay totalSongs={this.state.totalSongs} songsList={this.state.songsList} />
-      </div>
+      <main className="outerContainer">
+        <div className="header">
+          <h1 id="appHeader">Playd.io</h1>
+          <h3>Create Playlist from your favorite Radio Show</h3>
+        </div>
+        <div className="showSelectorDiv">
+          <ShowSelector getSongs={this.getSongs} />
+        </div>
+        <div className="showDisplayDiv">
+          <ShowDisplay
+            showTitle={this.state.showTitle}
+            showHost={this.state.showHost}
+            showDate={this.state.showDate}
+          />
+        </div>
+        <div className="songsDisplayDiv">
+          <SongsDisplay totalSongs={this.state.totalSongs} songsList={this.state.songsList} />
+        </div>
+      </main>
     );
   }
 }
