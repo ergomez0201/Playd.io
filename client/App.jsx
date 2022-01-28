@@ -39,6 +39,10 @@ class App extends Component {
       .then((response) => response.json())
       .then((data) => {
         const tracksArray = data.trackData.tracks;
+
+        // checking if tracksArray is null, return initial state
+        // if (!tracksArray) return this.state;
+
         return this.setState({
           totalSongs: tracksArray.length,
           showHost: data.radioShow[0].host,

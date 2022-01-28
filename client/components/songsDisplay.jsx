@@ -78,10 +78,10 @@ class SongsDisplay extends Component {
     return (
       <div className="songsDisplay">
         <p id="totalSongs">Total Songs in Playlist: {this.props.totalSongs}</p>
-        <button type="button" onClick={this.login}>
+        <button id="spotifyLogin" type="button" onClick={this.login}>
           Login to Spotify
         </button>
-        <button type="button" onClick={this.createPlaylist}>
+        <button id="spotifyPlaylist" type="button" onClick={this.createPlaylist}>
           Create Spotify Playlist
         </button>
         {songsData}

@@ -83,3 +83,27 @@ input {
   margin-left: 1rem;
   margin-right: 1rem;
 }
+
+#spotifyLogin {
+  border-radius: 5px;
+  margin: 1rem;
+  padding: .5rem;
+  background-color: #1db954;
+  color: #FFFFFF;
+}
+
+#spotifyLogin:hover {
+  background-color: #1db954c4;
+}
+
+#spotifyPlaylist, #findSongs {
+  border-radius: 5px;
+  margin: 1rem;
+  padding: .5rem;
+  background-color: #dad5d5;
+  color: #191414
+}
+
+#spotifyPlaylist:hover {
+  background-color: #dad5d5c7;
+}

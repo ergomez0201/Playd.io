@@ -69,7 +69,7 @@ spotifyController.getClientCredentials = (req, res, next) => {
 spotifyController.spotifyRedirect = (req, res, next) => {
   // use session object to persist req body during redirect
   // res.session.playlistData = req.body;
-  console.log('this is the req body: ', req.body);
+  // console.log('this is the req body: ', req.body);
 
   const state = generateRandomString(16);
   res.cookie(stateKey, state);
@@ -121,7 +121,7 @@ spotifyController.getUserTokens = (req, res, next) => {
       .then((response) => {
         res.locals.accessToken = response.data.access_token;
         res.locals.refreshToken = response.data.refresh_token;
-        console.log('this is res locals: ', res.locals);
+        // console.log('this is res locals: ', res.locals);
 
         // temporary - send access tokens to browser
 
@@ -142,7 +142,7 @@ spotifyController.getUserID = (req, res, next) => {
       const userID = response.data.id;
       const { accessToken } = res.locals;
       const { refreshToken } = res.locals;
-      console.log('this is the user id: ', userID);
+      // console.log('this is the user id: ', userID);
       // console.log('this is in the session(should be empty): ', req.session.playlistData);
 
       res.redirect(
@@ -159,7 +159,7 @@ spotifyController.getUserID = (req, res, next) => {
 };
 
 spotifyController.createUserPlaylist = (req, res, next) => {
-  console.log('this is the body: ', req.body);
+  // console.log('this is the body: ', req.body);
   const { songURIArray, showTitle, showDate, userID, accessToken, refreshToken } = req.body;
   const [year, month, day] = showDate;
   const date = new Date(year, month - 1, day);
@@ -177,7 +177,7 @@ spotifyController.createUserPlaylist = (req, res, next) => {
     },
   })
     .then((response) => {
-      console.log(response.data);
+      // console.log(response.data);
       const playlistID = response.data.id;
 
       axios({

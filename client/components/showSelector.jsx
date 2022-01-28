@@ -48,7 +48,7 @@ function ShowSelector(props) {
             <input id="showDay" placeholder="DAY" type="text" name="showDay" />
           </label>
         </form>
-        <button type="button" onClick={handleClick}>
+        <button id="findSongs" type="button" onClick={handleClick}>
           Find Songs
         </button>
       </div>
