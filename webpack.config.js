@@ -39,18 +39,17 @@ module.exports = {
         },
       },
       {
-        test: /\.s[ac]ss$/i,
+        test: /\.s?css$/i,
         exclude: /node_modules/,
         use: [
-          'style-loader',
+          { loader: 'style-loader' },
           {
             loader: 'css-loader',
             options: {
-              importLoaders: 1,
               modules: true,
             },
           },
-          'sass-loader',
+          { loader: 'sass-loader' },
         ],
       },
       {

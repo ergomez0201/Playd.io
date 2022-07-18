@@ -1,0 +1,10 @@
+main {
+  display: flex;
+  .showDisplay {
+    width: 30vw;
+  }
+  .mainContainer {
+    width: 70vw;
+    // flex-basis: 80vw;
+  }
+}

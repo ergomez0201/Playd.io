@@ -1,7 +1,14 @@
 import React from 'react';
 
+import ShowSelector from '../showSelector/showSelector';
+
 function ShowDisplay() {
-  return <div>This is the show display</div>;
+  return (
+    <div>
+      <p>This is the show display</p>
+      <ShowSelector />
+    </div>
+  );
 }
 
 // function ShowDisplay(props) {
