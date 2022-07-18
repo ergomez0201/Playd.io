@@ -1,15 +1,20 @@
+/**
+ * *************************************************
+ *
+ * @utility kcrwScraper
+ *
+ * @description
+ * This file is a WIP. It is meant to iterate through KCRW JSON pages and populate a hosted database.
+ * The issue is that the total data size is roughly 6TB so I decided to scrap this utility and find a workaround.
+ *
+ */
+
 const axios = require('axios');
 const { Pool } = require('pg');
 const db = require('../server/models/radioShowModels');
 
 // iterate through the URL from November 2, 1994 until today
 // Note that today's date is 4/19/2022
-
-// let longDate = new Date(new Date('November 02, 1994'));
-// console.log(longDate);
-// longDate = JSON.stringify(longDate);
-// longDateArr = longDate.split('-').join('/').split('T');
-// console.log(longDateArr[0].replace('"', ''));
 
 const year = '2022';
 const month = '07';
