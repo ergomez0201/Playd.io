@@ -8,6 +8,8 @@ const spotifyController = require('../controllers/spotifyController');
 
 router.use(cors());
 
+router.get('/tracks', kcrwController.getSongs, (req, res) => res.status(200).send(res.locals));
+
 router.post(
   '/',
   kcrwController.getSongs,

@@ -1,12 +1,12 @@
 import React from 'react';
 
-import ShowSelector from '../showSelector/showSelector';
+import DateSelector from '../dateSelector/dateSelector';
 
 function ShowDisplay() {
   return (
     <div>
       <p>This is the show display</p>
-      <ShowSelector />
+      <DateSelector />
     </div>
   );
 }

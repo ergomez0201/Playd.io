@@ -58,6 +58,7 @@ module.exports = {
         exclude: /node_modules/,
       },
     ],
+    noParse: [require.resolve('typescript/lib/typescript.js')],
   },
   plugins: [
     new HtmlWebpackPlugin({
