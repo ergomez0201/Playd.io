@@ -29,7 +29,13 @@ const kcrwController = {};
 
 kcrwController.getSongs = (req, res, next) => {
   console.log(req.query);
+  const { year, month, day } = req.query;
+  // axios
+  //   .get(`https://tracklist-api.kcrw.com/Simulcast/date/${year}/${month}/${day}?page_size=500`)
+  //   .then((data) => {
+  //     res.locals.kcrwData = data.data;
   return next();
+  // });
 };
 
 module.exports = kcrwController;
