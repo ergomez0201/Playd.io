@@ -37,6 +37,29 @@ const appAuthOptions = {
 
 const spotifyController = {};
 
+spotifyController.getSongUri = (req, res, next) => {
+  const { title, artist } = req.query;
+  axios
+    .get(
+      `https://api.spotify.com/v1/search?q=track:${title} artist:${artist}&type=track&market=US`,
+      {
+        headers: {
+          Authorization: `Bearer ${res.locals.accessToken}`,
+        },
+      }
+    )
+    .then((response) => {
+      const trackArray = response.data.tracks.items;
+      if (trackArray.length === 0) {
+        res.locals.spotifyUri = null;
+        return next();
+      }
+      res.locals.spotifyUri = trackArray[0].uri;
+      return next();
+    })
+    .catch((err) => console.log(err));
+};
+
 spotifyController.sendSongID = (req, res, next) => {
   trackIDArray = [];
   for (const track of res.locals.radioShow) {

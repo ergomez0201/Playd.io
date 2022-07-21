@@ -14,6 +14,13 @@ router.use(cors());
 
 router.get('/tracks', (req, res) => res.status(200).json(data));
 
+router.get(
+  '/search',
+  spotifyController.getClientCredentials,
+  spotifyController.getSongUri,
+  (req, res) => res.status(200).json(res.locals.spotifyUri)
+);
+
 router.post(
   '/',
   kcrwController.getSongs,
