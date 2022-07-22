@@ -163,20 +163,20 @@ spotifyController.getUserID = (req, res, next) => {
     })
     .then((response) => {
       const userID = response.data.id;
-      const { accessToken } = res.locals;
-      const { refreshToken } = res.locals;
+      // const { accessToken } = res.locals;
+      // const { refreshToken } = res.locals;
       // console.log('this is the user id: ', userID);
       // console.log('this is in the session(should be empty): ', req.session.playlistData);
 
-      res.redirect(
-        `/?${new URLSearchParams({
-          userID,
-          accessToken,
-          refreshToken,
-        }).toString()}`
-      );
-
-      // return next();
+      // res.redirect(
+      //   `/?${new URLSearchParams({
+      //     userID,
+      //     accessToken,
+      //     refreshToken,
+      //   }).toString()}`
+      // );
+      res.locals.userID = userID;
+      return next();
     })
     .catch((error) => console.log(error));
 };

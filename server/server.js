@@ -12,14 +12,14 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use(cors());
 app.use(cookieParser());
-app.use(
-  session({
-    secret: 'secret',
-    resave: false,
-    saveUninitialized: true,
-    cookie: { maxAge: 60000 },
-  })
-);
+// app.use(
+//   session({
+//     secret: 'secret',
+//     resave: false,
+//     saveUninitialized: true,
+//     cookie: { maxAge: 60000 },
+//   })
+// );
 
 const PORT = 3000;
 

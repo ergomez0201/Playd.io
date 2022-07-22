@@ -5,6 +5,7 @@ const data = require('../data/production/kcrw/kcrw.dummy.json');
 const router = express.Router();
 const kcrwController = require('../controllers/kcrwController');
 const spotifyController = require('../controllers/spotifyController');
+const spotifyAuthController = require('../controllers/spotifyAuthController');
 
 router.use(cors());
 
@@ -16,7 +17,7 @@ router.get('/tracks', (req, res) => res.status(200).json(data));
 
 router.get(
   '/search',
-  spotifyController.getClientCredentials,
+  spotifyAuthController.getClientCredentials,
   spotifyController.getSongUri,
   (req, res) => res.status(200).json(res.locals.spotifyUri)
 );
@@ -34,17 +35,19 @@ router.post(
 );
 
 // connecting user to spotify
-router.get('/spotify', spotifyController.spotifyRedirect, (req, res) => {
+router.get('/spotify', spotifyAuthController.spotifyRedirect, (req, res) => {
   res.status(200).send('You are attempting to connect to spotify');
 });
 
 router.get(
   '/callback',
-  spotifyController.getUserTokens,
+  spotifyAuthController.getUserTokens,
   spotifyController.getUserID,
   // spotifyController.createUserPlaylist,
   (req, res) => {
-    res.status(200).send('this is the response from the callback route');
+    console.log(res.locals);
+    return res.status(200).send('<script>window.close();</script>');
+    // res.redirect('/');
   }
 );
 
