@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export const trackSlice = createSlice({
   name: 'track',
-  initialState: { tracks: [] },
+  initialState: { tracks: null },
   reducers: {
     populateTracks: (state, action) => ({
       ...state,
@@ -11,6 +11,6 @@ export const trackSlice = createSlice({
   },
 });
 
-// export const { reducerNames } = trackSlice.actions;
+export const { populateTracks } = trackSlice.actions;
 
 export default trackSlice.reducer;

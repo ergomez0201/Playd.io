@@ -19,13 +19,13 @@ router.get(
   '/search',
   spotifyAuthController.getClientCredentials,
   spotifyController.getSongUri,
-  (req, res) => res.status(200).json(res.locals.spotifyUri)
+  (req, res) => res.status(200).json(res.locals)
 );
 
 router.post(
   '/',
   kcrwController.getSongs,
-  spotifyController.getClientCredentials,
+  spotifyAuthController.getClientCredentials,
   spotifyController.sendSongID,
   (req, res) => {
     console.log('inside last middleware: ');
@@ -44,11 +44,16 @@ router.get(
   spotifyAuthController.getUserTokens,
   spotifyController.getUserID,
   // spotifyController.createUserPlaylist,
-  (req, res) => {
-    console.log(res.locals);
-    return res.status(200).send('<script>window.close();</script>');
-    // res.redirect('/');
-  }
+  (req, res) =>
+    // TODO: TEMPORARY SOLUTION: Store tokens in local storage
+    // refactor to check access token expiration and tokens using redis
+    res.status(200).send(`<script>
+    localStorage.setItem('accessToken', '${res.locals.accessToken}');
+    localStorage.setItem('refreshToken', '${res.locals.refreshToken}');
+    localStorage.setItem('expire', '${res.locals.expires_in}');
+    localStorage.setItem('userID', '${res.locals.userID}');
+    window.close();
+    </script>`)
 );
 
 router.post('/playlist', spotifyController.createUserPlaylist, (req, res) =>

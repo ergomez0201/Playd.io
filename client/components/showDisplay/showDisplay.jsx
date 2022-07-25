@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { dateUpdate } from '../../store/reducers/displayReducer';
+import { populateTracks } from '../../store/reducers/tracksReducer';
 import { useGetKcrwDataQuery } from '../../features/api/apiSlice';
 
 import DateSelector from '../dateSelector/dateSelector';
 import { dateToStringYMD } from '../utils/dateParser';
 
 function ShowDisplay() {
+  // temporary state for development
+  const [environment, setEnvironment] = useState('dev');
   const [startDate, setStartDate] = useState(null);
   const [skip, setSkip] = useState(true);
 
@@ -32,43 +35,54 @@ function ShowDisplay() {
       skip,
     }
   );
-  console.log('this is the data back from kcrw api: ', data);
+  // console.log('this is the data back from kcrw api: ', data);
 
   function onProgramChange(e) {
     const programName = document.querySelector('#radio-shows').value;
     // need to select the select field to grab the target value
     console.log(programName);
-    const programSongs = data.filter(
+    const programSongsRaw = data.filter(
       (track) => track.program_title === programName && track.title !== null
     );
-    // console.log(programSongs);
-    // iterate through the programSongs array
-    // Promise.all(
-    programSongs.forEach((track, index) => {
-      if (track.spotify_id === null) {
-        console.log(track.title, index);
-        fetch(`/api/search?title=${track.title}&artist=${track.artist}`)
-          .then((res) => res.json())
-          .then((uri) => {
-            console.log(track.title, index);
-            console.log(uri, index);
-            // track.spotify_id = uri;
-            // update programSongs by track[index].spotify_id = uri
-            // also don't forget to extract the uri by itself
-          })
-          .catch((err) => console.log(err));
-      }
-    });
-    // ).then(() => {
-    //   programSongs.forEach((track) => {
-    //     if (track.spotify_id === null) {
-    //       console.log(track.title);
-    //     }
-    // });
-    // });
-    // check if the spotify_id of any are null, and if so we want to send a mutation to spotify API to query this data
 
-    // once data comes back, then we want to send another request to spotify API for all the info we need as a query to save to state
+    const programSongs = JSON.parse(JSON.stringify(programSongsRaw));
+    // console.log('these are the program songs: ', programSongs);
+    // iterate through the programSongs array
+    // TODO: have temporary condition to only fetch these things once I'm further down the line, I have dummy data to start formatting
+
+    if (environment === 'dev') {
+      dispatch(populateTracks(programSongs));
+    } else {
+      const fetches = [];
+      for (let i = 0; i < programSongs.length; i++) {
+        if (programSongs[i].spotify_id === null) {
+          console.log(programSongs[i].spotify_id, i);
+          fetches.push(
+            fetch(`/api/search?title=${programSongs[i].title}&artist=${programSongs[i].artist}`)
+              .then((res) => res.json())
+              .then((url) => {
+                const { spotifyUri, albumImage, albumImageLarge } = url;
+                if (spotifyUri) {
+                  const uriString = spotifyUri.split(':')[2];
+                  // track.spotify_id = uriString;
+                  programSongs[i].spotify_id = uriString;
+                  // console.log(programSongs[index].spotify_id, uriString);
+                }
+                if (albumImage && albumImageLarge) {
+                  programSongs[i].albumImage = albumImage;
+                  programSongs[i].albumImageLarge = albumImageLarge;
+                }
+              })
+              .catch((err) => console.log(err))
+          );
+        }
+      }
+
+      Promise.all(fetches).then(() => {
+        console.log('programSongs after all promises resolved: ', programSongs);
+        dispatch(populateTracks(programSongs));
+      });
+    }
   }
 
   // parse through data that came back from kcrw api and create a datalist from the array

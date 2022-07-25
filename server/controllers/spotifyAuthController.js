@@ -46,11 +46,9 @@ function sha256(buffer) {
 }
 
 const verifier = base64URLEncode(crypto.randomBytes(32));
-console.log('code_verifier: ', verifier);
 
 if (verifier) {
   challenge = base64URLEncode(sha256(verifier));
-  console.log('code_challenge: ', challenge);
 }
 
 const spotifyAuthController = {};
@@ -126,7 +124,9 @@ spotifyAuthController.getUserTokens = (req, res, next) => {
       })
       .catch((error) => {
         console.log(error);
-        return res.status(201).send('<script>window.close()</script>');
+        return res.status(201).send(`<script>
+        window.close()
+        </script>`);
       });
   }
 };
