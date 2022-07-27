@@ -5,7 +5,7 @@ import { populateTracks } from '../../store/reducers/tracksReducer';
 import { useGetKcrwDataQuery } from '../../features/api/apiSlice';
 
 import DateSelector from '../dateSelector/dateSelector';
-import { dateToStringYMD } from '../utils/dateParser';
+import { dateToStringYMD } from '../utils/dateParser/dateParser';
 
 function ShowDisplay() {
   // temporary state for development
