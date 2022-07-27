@@ -1,5 +1,5 @@
 export function dateToStringYMD(date) {
-  if (!(date instanceof Date)) return new Error('Enter a valid date');
+  if (!(date instanceof Date)) throw new Error('Invalid date');
   const year = date.getFullYear().toString();
   let month = date.getMonth() + 1;
   let day = date.getDate();
