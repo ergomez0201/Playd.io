@@ -10,12 +10,18 @@ import styles from './trackContainer.styles.scss';
 function TrackContainer(props) {
   const { index, albumImage, title, album } = props;
   return (
-    <div className={styles.trackContainer}>
-      <TrackNumber index={index} />
-      <TrackImage albumImage={albumImage} />
-      <TrackTitle title={title} />
-      <TrackAlbum album={album} />
-    </div>
+    <>
+      <td>
+        <TrackNumber index={index} />
+      </td>
+      <td>
+        <TrackImage albumImage={albumImage} />
+        <TrackTitle title={title} />
+      </td>
+      <td>
+        <TrackAlbum album={album} />
+      </td>
+    </>
   );
 }
 

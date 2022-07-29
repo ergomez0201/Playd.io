@@ -11,12 +11,12 @@ function Navbar() {
           <h1>Playd.io</h1>
         </Link>
         <div className="nav-links-container">
-          <Link className={styles.navLink} to="/">
+          {/* <Link className={styles.navLink} to="/">
             Music
-          </Link>
-          <Link className={styles.navLink} to="/about">
+          </Link> */}
+          {/* <Link className={styles.navLink} to="/about">
             About
-          </Link>
+          </Link> */}
         </div>
       </nav>
       <Outlet />

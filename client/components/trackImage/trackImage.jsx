@@ -6,7 +6,7 @@ function TrackImage(props) {
   if (!albumImage) {
     albumImage = defaultArtwork;
   }
-  return <img src={albumImage} alt="Album Artwork" width="60" height="60" />;
+  return <img src={albumImage} alt="Album Artwork" width="40" height="40" />;
 }
 
 export default TrackImage;

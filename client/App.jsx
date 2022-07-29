@@ -6,16 +6,14 @@ import Music from './routes/music/music';
 import About from './routes/about/about';
 
 // styles and assets
-import styles from './App.scss';
-
-console.log(styles);
+import './App.scss';
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Navbar />}>
         <Route index element={<Music />} />
-        <Route path="/about" element={<About />} />
+        {/* <Route path="/about" element={<About />} /> */}
       </Route>
     </Routes>
   );
