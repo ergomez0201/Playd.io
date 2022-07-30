@@ -2,14 +2,16 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { playlistTitleUpdate } from '../../store/reducers/displayReducer';
 
+import styles from './playlistHeader.styles.scss';
+
 function PlaylistHeader() {
   const playlistTitle = useSelector((state) => state.display.playlistTitle);
   const dispatch = useDispatch();
   return (
-    <div>
+    <>
       <p>This is the PlaylistHeader</p>
-      <label htmlFor="playlistTitle">
-        Playlist Title:
+      <label htmlFor="playlistTitle" className={styles.playlistTitle}>
+        <p>PLAYLIST TITLE:</p>
         <input
           type="text"
           id="playlistTitle"
@@ -20,7 +22,7 @@ function PlaylistHeader() {
           }}
         />
       </label>
-    </div>
+    </>
   );
 }
 

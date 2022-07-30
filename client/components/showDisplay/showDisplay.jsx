@@ -63,6 +63,7 @@ function ShowDisplay(props) {
     // TODO: have temporary condition to only fetch these things once I'm further down the line, I have dummy data to start formatting
 
     if (environment === 'dev') {
+      console.log(JSON.stringify(programSongs));
       dispatch(populateTracks(programSongs));
     } else {
       const fetches = [];

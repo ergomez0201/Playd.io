@@ -1,0 +1,38 @@
+.playlistTitle {
+  // text-align: center;
+  // width: 90%;
+  margin: 1rem;
+  display: flex;
+  justify-content: center;
+  border: none;
+  // border-bottom: 1px solid black;
+  font-weight: bold;
+  font-size: 1rem;
+  p{
+    align-self: center;
+    margin-right: 1rem;
+    text-align: end;
+  }
+  input {
+    color: rgb(0, 0, 0);
+    border: none;
+    outline: none;
+    border-radius: 16px;
+    padding: .5rem;
+    width: 90%;
+    max-width: 30rem;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: bold;
+    display: inline-block;
+    background-color: rgb(224, 224, 224, .5);
+  }
+}
+
+// input {
+//   text-align: center;
+//   border: none;
+//   border-bottom: 1px solid black;
+//   font-weight: bold;
+//   font-size: 1rem;
+// }

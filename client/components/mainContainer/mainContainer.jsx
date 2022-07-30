@@ -29,12 +29,12 @@ function MainContainer() {
   };
   return (
     <div className={styles.mainContainer}>
-      <div>This is the Main Container</div>
+      <p>This is the Main Container</p>
       <button type="button" onClick={onLoginClick}>
         Spotify
       </button>
       {populatedTracks && (
-        <div>
+        <div className="populatedTracks">
           <PlaylistHeader />
           <TrackDisplay populatedTracks={populatedTracks} />
         </div>
