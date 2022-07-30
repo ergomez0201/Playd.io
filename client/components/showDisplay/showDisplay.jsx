@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { dateUpdate } from '../../store/reducers/displayReducer';
+import { useDispatch } from 'react-redux';
+import { dateUpdate, isShowDisplayVisibleUpdate } from '../../store/reducers/displayReducer';
 import { populateTracks } from '../../store/reducers/tracksReducer';
 import { useGetKcrwDataQuery } from '../../features/api/apiSlice';
 
 import DateSelector from '../dateSelector/dateSelector';
+import ProgramDetailsDisplay from '../programDetailsDisplay/programDetailsDisplay';
 import { dateToStringYMD } from '../utils/dateParser/dateParser';
 
-function ShowDisplay() {
+import styles from './showDisplay.styles.scss';
+
+function ShowDisplay(props) {
   // temporary state for development
   const [environment, setEnvironment] = useState('dev');
   const [startDate, setStartDate] = useState(null);
+  const [programDetails, setProgramDetails] = useState(null);
   const [skip, setSkip] = useState(true);
 
   const dispatch = useDispatch();
@@ -35,19 +39,27 @@ function ShowDisplay() {
       skip,
     }
   );
-  // console.log('this is the data back from kcrw api: ', data);
+  console.log('this is the data back from kcrw api: ', data);
 
   function onProgramChange(e) {
+    // this will be a function to display the show/dj and the time that they are on
     const programName = document.querySelector('#radio-shows').value;
-    // need to select the select field to grab the target value
-    console.log(programName);
-    const programSongsRaw = data.filter(
-      (track) => track.program_title === programName && track.title !== null
-    );
+    const programSongs = filterAndMakeReadWriteCopy(programName, data);
 
-    const programSongs = JSON.parse(JSON.stringify(programSongsRaw));
-    // console.log('these are the program songs: ', programSongs);
-    // iterate through the programSongs array
+    const programTitle = programSongs[0].program_title;
+    const programStart = programSongs[0].program_start;
+    const programEnd = programSongs[0].program_end;
+    const { host } = programSongs[0];
+
+    setProgramDetails({ programTitle, programStart, programEnd, host });
+  }
+
+  function onProgramSelect(e) {
+    const programName = document.querySelector('#radio-shows').value;
+
+    const programSongs = filterAndMakeReadWriteCopy(programName, data);
+    dispatch(isShowDisplayVisibleUpdate(false));
+
     // TODO: have temporary condition to only fetch these things once I'm further down the line, I have dummy data to start formatting
 
     if (environment === 'dev') {
@@ -97,35 +109,56 @@ function ShowDisplay() {
     console.log('program names: ', programNames);
 
     return (
-      <div>
-        <p>This is the show display</p>
+      <div className={styles.showDisplay}>
+        <h3>SELECT A KCRW DJ/SHOW</h3>
         <DateSelector setStartDate={setStartDate} startDate={startDate} setSkip={setSkip} />
         <form>
-          <label htmlFor="radio-shows">Select A Program:</label>
-          <select id="radio-shows">{programNames}</select>
-          <button
-            type="button"
-            onClick={(e) => {
-              onProgramChange(e);
-            }}
-          >
-            Search
-          </button>
+          <label htmlFor="radio-shows">Program:</label>
+          <select id="radio-shows" onChange={onProgramChange}>
+            <option value="" hidden>
+              SELECT
+            </option>
+            {programNames}
+          </select>
         </form>
+        {programDetails && (
+          <>
+            <hr className={styles.showDisplayHR} />
+            <ProgramDetailsDisplay programDetails={programDetails} date={startDate} />
+            <hr className={styles.showDisplayHR} />
+            <button
+              className={styles.showDisplayButton}
+              type="button"
+              onClick={(e) => {
+                onProgramSelect(e);
+              }}
+            >
+              Search
+            </button>
+          </>
+        )}
       </div>
     );
   }
 
   return (
-    <div>
-      <p>This is the show display</p>
+    <div className={styles.showDisplay}>
+      <h3>SELECT A KCRW DJ/SHOW</h3>
       <DateSelector setStartDate={setStartDate} startDate={startDate} setSkip={setSkip} />
-      <form>
-        <input list="radio-shows" name="radio-show" disabled />
-        {/* <datalist id="radio-shows" /> */}
-      </form>
     </div>
   );
+}
+
+// util function to create a read-write version of the data that matches program Name
+function filterAndMakeReadWriteCopy(programName, rawData) {
+  const programSongsRaw = rawData.filter(
+    // checking if track.title is null is to prevent grabbing [BREAKS] in the show
+    (track) => track.program_title === programName && track.title !== null
+  );
+
+  // programSongsRaw is read only so make a copy to update object key/values
+  const programSongs = JSON.parse(JSON.stringify(programSongsRaw));
+  return programSongs;
 }
 
 export default ShowDisplay;

@@ -1,2 +1,21 @@
 // @import "~react-datepicker/dist/react-datepicker.css";
 @import url('https://cdnjs.cloudflare.com/ajax/libs/react-datepicker/2.8.0/react-datepicker.min.css');
+
+.dateContainer {
+  margin: 2rem auto;
+  width: 80%;
+
+  input {
+    text-align: center;
+    border: none;
+    border-bottom: 1px solid black;
+    font-weight: bold;
+    font-size: 1rem;
+  }
+  
+  strong {
+    font-size: 1.2rem;
+  }
+  
+}
+

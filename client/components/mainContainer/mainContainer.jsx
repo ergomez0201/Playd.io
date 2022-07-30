@@ -6,6 +6,8 @@ import TrackDisplay from '../trackDisplay/trackDisplay';
 
 import { playlistTitleUpdate } from '../../store/reducers/displayReducer';
 
+import styles from './mainContainer.styles.scss';
+
 function MainContainer() {
   const dispatch = useDispatch();
   const populatedTracks = useSelector((state) => state.tracks.tracks);
@@ -26,7 +28,7 @@ function MainContainer() {
     window.open('http://localhost:8080/api/spotify', '_blank');
   };
   return (
-    <div>
+    <div className={styles.mainContainer}>
       <div>This is the Main Container</div>
       <button type="button" onClick={onLoginClick}>
         Spotify

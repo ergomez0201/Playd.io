@@ -1,22 +1,32 @@
 import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { isShowDisplayVisibleUpdate } from '../../store/reducers/displayReducer';
+import SearchIcon from '../../../assets/images/searchIcon.svg';
 
 import styles from './navbar.styles.scss';
 
 function Navbar() {
+  const dispatch = useDispatch();
+
   return (
     <>
       <nav>
-        <Link className={styles.logo} to="/">
-          <h1>Playd.io</h1>
-        </Link>
+        <h1 className={styles.logo}>Playd.io</h1>
         <div className="nav-links-container">
-          {/* <Link className={styles.navLink} to="/">
-            Music
-          </Link> */}
-          {/* <Link className={styles.navLink} to="/about">
-            About
-          </Link> */}
+          <button
+            type="button"
+            className={styles.searchButton}
+            onClick={() => dispatch(isShowDisplayVisibleUpdate(true))}
+          >
+            <img
+              src={SearchIcon}
+              alt="search-icon"
+              width="40"
+              height="40"
+              className={styles.search}
+            />
+          </button>
         </div>
       </nav>
       <Outlet />

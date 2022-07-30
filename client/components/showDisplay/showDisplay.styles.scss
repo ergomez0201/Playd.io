@@ -1,0 +1,41 @@
+.showDisplay {
+  width: 90%;
+  margin: 0 auto;
+  text-align: center;
+  margin-top: 3rem;
+
+  form {
+    width: 80%;
+    margin: 2rem auto;
+
+    label {
+      font-size: 1.2rem;
+      font-weight: bold;
+    }
+
+    select {
+      text-align: center;
+      border: none;
+      border-bottom: 1px solid black;
+      font-weight: bold;
+      font-size: 1rem;
+    }
+  }
+}
+
+.showDisplayHR {
+  height: 2px;
+  border: none;
+  width: 80%;
+  margin: 3rem auto;
+  text-align: center;
+  background-color: #9F1D35;
+}
+
+.showDisplayButton {
+  padding: 0.5rem;
+  border-radius: 5px;
+  background-color: black;
+  color: white;
+  font-size: 1.2rem;
+}

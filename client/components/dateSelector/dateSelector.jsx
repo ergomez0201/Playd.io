@@ -8,7 +8,7 @@ import range from 'lodash/range';
 // import action creators
 
 // styles and assets
-import './dateSelector.styles.scss';
+import styles from './dateSelector.styles.scss';
 
 function DateSelector(props) {
   const { startDate, setStartDate, setSkip } = props;
@@ -30,8 +30,8 @@ function DateSelector(props) {
     'December',
   ];
   return (
-    <div>
-      <p>This is the dateSelector</p>
+    <div className={styles.dateContainer}>
+      <strong>Date </strong>
       <DatePicker
         renderCustomHeader={({
           date,
@@ -85,7 +85,7 @@ function DateSelector(props) {
         minDate={new Date('November 2, 1994')}
         maxDate={Date.now() - 24 * 60 * 60 * 1000}
         showDisabledMonthNavigation
-        placeholderText="Click to select a date"
+        placeholderText="MM/DD/YYYY"
         strictParsing
       />
     </div>
