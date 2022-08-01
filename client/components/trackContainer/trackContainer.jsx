@@ -14,7 +14,7 @@ function TrackContainer(props) {
       <td>
         <TrackNumber index={index} />
       </td>
-      <td>
+      <td className={styles.imageAndTitle}>
         <TrackImage albumImage={albumImage} />
         <TrackTitle title={title} />
       </td>

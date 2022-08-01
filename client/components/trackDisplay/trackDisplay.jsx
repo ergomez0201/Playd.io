@@ -4,13 +4,15 @@ import { populateTracks } from '../../store/reducers/tracksReducer';
 
 import TrackContainer from '../trackContainer/trackContainer';
 
+import styles from './trackDisplay.styles.scss';
+
 function TrackDisplay(props) {
   const { populatedTracks } = props;
 
   const totalTracks = useSelector((state) => state.tracks.tracks);
   console.log('totalTracks in trackDisplay component: ', totalTracks);
   const trackDisplayData = populatedTracks.map((track, i) => (
-    <tr>
+    <tr className={styles.trackContainer}>
       <TrackContainer
         key={track.play_id}
         index={i}
@@ -23,10 +25,10 @@ function TrackDisplay(props) {
   return (
     <div>
       <p>This is the TrackDisplay</p>
-      <table>
+      <table className={styles.trackDisplayTable}>
         <thead>
           <tr>
-            <th>No.</th>
+            <th id={styles.trackNumber}>#</th>
             <th>Title</th>
             <th>Album</th>
           </tr>

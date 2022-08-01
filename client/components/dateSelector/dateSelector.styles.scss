@@ -6,9 +6,10 @@
   width: 80%;
 
   input {
-    text-align: center;
+    width: 100%;
+    text-align: left;
     border: none;
-    border-bottom: 1px solid black;
+    // border-bottom: 1.5px solid #BABABA;
     font-weight: bold;
     font-size: 1rem;
   }
@@ -16,6 +17,13 @@
   strong {
     font-size: 1.2rem;
   }
-  
+
+}
+
+.datePicker {
+  width: 80%;
+  max-width: 20rem;
+  text-align: left;
+  border-bottom: 1.5px solid #BABABA;
 }
 

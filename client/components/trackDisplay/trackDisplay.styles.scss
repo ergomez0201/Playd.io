@@ -1,0 +1,14 @@
+.trackDisplayTable {
+  margin: 1rem;
+  border-spacing: 1rem;
+  #trackNumber {
+    padding-right: 1rem;
+  }
+  th {
+    text-align: left;
+  }
+}
+
+.trackContainer {
+  border-top: 1px solid black;
+}

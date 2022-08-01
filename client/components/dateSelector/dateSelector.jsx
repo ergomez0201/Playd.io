@@ -33,6 +33,7 @@ function DateSelector(props) {
     <div className={styles.dateContainer}>
       <strong>Date </strong>
       <DatePicker
+        wrapperClassName={styles.datePicker}
         renderCustomHeader={({
           date,
           changeYear,
@@ -85,7 +86,7 @@ function DateSelector(props) {
         minDate={new Date('November 2, 1994')}
         maxDate={Date.now() - 24 * 60 * 60 * 1000}
         showDisabledMonthNavigation
-        placeholderText="MM/DD/YYYY"
+        placeholderText="  Select a date"
         strictParsing
       />
     </div>
