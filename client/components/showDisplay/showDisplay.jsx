@@ -111,22 +111,20 @@ function ShowDisplay(props) {
 
     return (
       <div className={styles.showDisplay}>
-        <h3>SELECT A KCRW DJ/SHOW</h3>
+        <h2>SELECT A KCRW DJ/SHOW</h2>
         <DateSelector setStartDate={setStartDate} startDate={startDate} setSkip={setSkip} />
         <form>
-          <label htmlFor="radio-shows">Program:</label>
+          <label htmlFor="radio-shows">Program </label>
           <select id="radio-shows" onChange={onProgramChange}>
             <option value="" hidden>
-              SELECT
+              Choose a program
             </option>
             {programNames}
           </select>
         </form>
         {programDetails && (
           <>
-            <hr className={styles.showDisplayHR} />
             <ProgramDetailsDisplay programDetails={programDetails} date={startDate} />
-            <hr className={styles.showDisplayHR} />
             <button
               className={styles.showDisplayButton}
               type="button"
@@ -144,7 +142,7 @@ function ShowDisplay(props) {
 
   return (
     <div className={styles.showDisplay}>
-      <h3>SELECT A KCRW DJ/SHOW</h3>
+      <h2>SELECT A KCRW DJ/SHOW</h2>
       <DateSelector setStartDate={setStartDate} startDate={startDate} setSkip={setSkip} />
     </div>
   );

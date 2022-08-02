@@ -85,6 +85,7 @@ function DateSelector(props) {
         }}
         minDate={new Date('November 2, 1994')}
         maxDate={Date.now() - 24 * 60 * 60 * 1000}
+        dateFormat="  MMMM dd, yyyy"
         showDisabledMonthNavigation
         placeholderText="  Select a date"
         strictParsing

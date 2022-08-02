@@ -12,21 +12,23 @@ function Navbar() {
   return (
     <>
       <nav>
-        <h1 className={styles.logo}>Playd.io</h1>
+        <Link to="/" onClick={() => dispatch(isShowDisplayVisibleUpdate(true))}>
+          <h1 className={styles.logo}>Playd.io</h1>
+        </Link>
         <div className="nav-links-container">
-          <button
+          {/* <button
             type="button"
             className={styles.searchButton}
             onClick={() => dispatch(isShowDisplayVisibleUpdate(true))}
-          >
-            <img
+          > */}
+          {/* <img
               src={SearchIcon}
               alt="search-icon"
               width="40"
               height="40"
               className={styles.search}
-            />
-          </button>
+            /> */}
+          {/* </button> */}
         </div>
       </nav>
       <Outlet />

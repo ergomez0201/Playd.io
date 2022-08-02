@@ -2,9 +2,9 @@
 // font-family: 'Edu TAS Beginner', cursive;
 
 nav {
-  background-color: rgb(0, 0, 0);
+  background-color: #005A9C;
   min-height: 3.5rem;
-  border-bottom: 4px solid #9F1D35;
+  // border-bottom: 4px solid #9F1D35;
   display: flex;
   justify-content: space-between;
 }
@@ -20,6 +20,7 @@ nav {
 
 a {
   display: inline-block;
+  text-decoration: none;
   color:rgb(220, 220, 220);
 }
 

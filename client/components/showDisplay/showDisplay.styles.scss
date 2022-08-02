@@ -2,11 +2,16 @@
   width: 90%;
   // max-width: 30rem;
   margin: 0 auto;
-  text-align: center;
+  text-align: left;
   margin-top: 3rem;
 
+  h2{
+    text-align: center;
+    font-size: 1.4rem;
+  }
+
   form {
-    width: 90%;
+    width: 80%;
     margin: 2rem auto;
 
     label {
@@ -15,28 +20,29 @@
     }
 
     select {
-      text-align: center;
+      width: 70%;
+      max-width: 30rem;
+      text-align: left;
       border: none;
       border-bottom: 1px solid #BABABA;
-      font-weight: bold;
+      font-weight: 200;
       font-size: 1rem;
+      option {
+        background-color: #F4F4F4;
+        padding: 0 5rem;
+        border-bottom: 1px solid white;
+      }
     }
   }
 }
 
-.showDisplayHR {
-  height: 2px;
-  border: none;
-  width: 80%;
-  margin: 3rem auto;
-  text-align: center;
-  background-color: #9F1D35;
-}
-
 .showDisplayButton {
+  display: block;
+  width: 80%;
+  margin: 0 auto;
   padding: 0.5rem;
-  border-radius: 5px;
-  background-color: black;
+  border-radius: 10px;
+  background-color: #005A9C;
   color: white;
   font-size: 1.2rem;
 }
