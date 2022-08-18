@@ -1,6 +1,10 @@
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .playlistTitle {
-  // text-align: center;
-  // width: 90%;
   margin: 1rem;
   display: flex;
   justify-content: center;

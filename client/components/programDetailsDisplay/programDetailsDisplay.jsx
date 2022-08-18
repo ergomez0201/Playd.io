@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useDispatch } from 'react-redux';
+import { dateUpdate } from '../../store/reducers/displayReducer';
 
 import convert24HourTime from '../utils/dateParser/convert24HourTime';
 import dayOfWeekMapper from '../utils/dateParser/dayOfWeekMapper';
@@ -8,6 +10,8 @@ import monthMapper from '../utils/dateParser/monthMapper';
 import styles from './programDetailsDisplay.styles.scss';
 
 function ProgramDetailsDisplay({ programDetails, date }) {
+  const dispatch = useDispatch();
+
   const { host, programTitle } = programDetails;
   let { programStart, programEnd } = programDetails;
   programStart = parseInt(programDetails.programStart, 10);
@@ -17,6 +21,10 @@ function ProgramDetailsDisplay({ programDetails, date }) {
   programEnd = convert24HourTime(programEnd);
 
   const [dayOfWeek, month, day, year] = date.toString().split(' ');
+
+  useEffect(() => {
+    dispatch(dateUpdate(`${monthMapper[month]} ${day}, ${year}`));
+  }, [date]);
 
   return (
     <div className={styles.detailsDisplay}>

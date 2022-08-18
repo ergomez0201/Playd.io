@@ -12,14 +12,16 @@ function MainContainer() {
   const dispatch = useDispatch();
   const populatedTracks = useSelector((state) => state.tracks.tracks);
   const playlistTitle = useSelector((state) => state.display.playlistTitle);
+  const stringDate = useSelector((state) => state.display.date);
+
+  console.log('this is the stringdate from redux: ', stringDate);
   console.log('this is the populated tracks in mainContainer component: ', populatedTracks);
   console.log('this is the playlistTitle in redux: ', playlistTitle);
 
   useEffect(() => {
     if (populatedTracks) {
-      const programDate = populatedTracks[0].date;
       const programTitle = populatedTracks[0].program_title;
-      dispatch(playlistTitleUpdate(`${programTitle}: ${programDate}`));
+      dispatch(playlistTitleUpdate(programTitle));
     }
   }, [populatedTracks]);
 
@@ -34,10 +36,10 @@ function MainContainer() {
         Spotify
       </button>
       {populatedTracks && (
-        <div className="populatedTracks">
+        <>
           <PlaylistHeader />
           <TrackDisplay populatedTracks={populatedTracks} />
-        </div>
+        </>
       )}
     </div>
   );

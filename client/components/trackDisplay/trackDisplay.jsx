@@ -1,18 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
+import PropTypes from 'prop-types';
 import { populateTracks } from '../../store/reducers/tracksReducer';
 
 import TrackContainer from '../trackContainer/trackContainer';
 
 import styles from './trackDisplay.styles.scss';
 
-function TrackDisplay(props) {
-  const { populatedTracks } = props;
+function TrackDisplay({ populatedTracks }) {
+  const [hasBeenRequested, setHasBeenRequested] = useState(false);
 
-  const totalTracks = useSelector((state) => state.tracks.tracks);
-  console.log('totalTracks in trackDisplay component: ', totalTracks);
   const trackDisplayData = populatedTracks.map((track, i) => (
-    <tr className={styles.trackContainer}>
+    <div className={styles.trackContainer}>
       <TrackContainer
         key={track.play_id}
         index={i}
@@ -20,23 +19,38 @@ function TrackDisplay(props) {
         title={track.title}
         album={track.album}
       />
-    </tr>
-  ));
-  return (
-    <div>
-      <p>This is the TrackDisplay</p>
-      <table className={styles.trackDisplayTable}>
-        <thead>
-          <tr>
-            <th id={styles.trackNumber}>#</th>
-            <th>Title</th>
-            <th>Album</th>
-          </tr>
-        </thead>
-        <tbody>{trackDisplayData}</tbody>
-      </table>
     </div>
+  ));
+
+  const initialDisplayData = trackDisplayData.slice(0, 11);
+  const requestMoreDisplayData = trackDisplayData.slice(11);
+
+  return (
+    <>
+      <div className={styles.trackDisplay}>
+        <p>No.</p>
+        <p>Title</p>
+        <p>Album</p>
+      </div>
+      {initialDisplayData}
+      {!hasBeenRequested && (
+        <button
+          className={styles.loadMoreButton}
+          type="button"
+          onClick={() => {
+            setHasBeenRequested(true);
+          }}
+        >
+          LOAD MORE
+        </button>
+      )}
+      {hasBeenRequested && requestMoreDisplayData}
+    </>
   );
 }
+
+TrackDisplay.propTypes = {
+  populatedTracks: PropTypes.arrayOf(PropTypes.object).isRequired,
+};
 
 export default TrackDisplay;

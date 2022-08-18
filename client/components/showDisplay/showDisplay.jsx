@@ -38,9 +38,9 @@ function ShowDisplay() {
     [stringYear, stringMonth, stringDay] = dateString.split('/');
   }
 
-  useEffect(() => {
-    dispatch(dateUpdate(dateString));
-  }, [startDate]);
+  // useEffect(() => {
+  //   dispatch(dateUpdate(dateString));
+  // }, [startDate]);
 
   const { data } = useGetKcrwDataQuery(
     { year: stringYear, month: stringMonth, day: stringDay },
