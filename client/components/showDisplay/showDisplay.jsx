@@ -7,18 +7,27 @@ import { useGetKcrwDataQuery } from '../../features/api/apiSlice';
 import DateSelector from '../dateSelector/dateSelector';
 import ProgramDetailsDisplay from '../programDetailsDisplay/programDetailsDisplay';
 import { dateToStringYMD } from '../utils/dateParser/dateParser';
+import filterAndMakeReadWriteCopy from '../utils/dataCopy/filterAndMakeReadWriteCopy';
 
 import styles from './showDisplay.styles.scss';
 
-function ShowDisplay(props) {
-  // temporary state for development
-  const [environment, setEnvironment] = useState('dev');
+function ShowDisplay() {
+  // temporary environment variable for development
+  const environment = 'dev';
+
+  /*
+    local state:
+      startDate used to set date for DatePicker
+      programDetails passed as a prop to programDetailsDisplay
+      skip assures that the fetch for tracks doesn't happen until a date has been chosen
+  */
   const [startDate, setStartDate] = useState(null);
   const [programDetails, setProgramDetails] = useState(null);
   const [skip, setSkip] = useState(true);
 
   const dispatch = useDispatch();
 
+  // stringified date variables
   let stringYear;
   let stringMonth;
   let stringDay;
@@ -66,6 +75,8 @@ function ShowDisplay(props) {
       console.log(JSON.stringify(programSongs));
       dispatch(populateTracks(programSongs));
     } else {
+      // there are a lot of tracks in the KCRW api that don't have an existing spotify id -
+      // make an initial request to spotify api to see if the songs are available
       const fetches = [];
       for (let i = 0; i < programSongs.length; i++) {
         if (programSongs[i].spotify_id === null) {
@@ -86,7 +97,12 @@ function ShowDisplay(props) {
                   programSongs[i].albumImageLarge = albumImageLarge;
                 }
               })
-              .catch((err) => console.log(err))
+              .catch((err) =>
+                console.log(
+                  'there was an error in requesting track info from spotify API. Message: ',
+                  err
+                )
+              )
           );
         }
       }
@@ -98,7 +114,7 @@ function ShowDisplay(props) {
     }
   }
 
-  // parse through data that came back from kcrw api and create a datalist from the array
+  // parse through data that came back from kcrw api and create a program list from the array
   if (data) {
     const programNameSet = new Set();
     data.forEach((program) => programNameSet.add(program.program_title));
@@ -146,18 +162,6 @@ function ShowDisplay(props) {
       <DateSelector setStartDate={setStartDate} startDate={startDate} setSkip={setSkip} />
     </div>
   );
-}
-
-// util function to create a read-write version of the data that matches program Name
-function filterAndMakeReadWriteCopy(programName, rawData) {
-  const programSongsRaw = rawData.filter(
-    // checking if track.title is null is to prevent grabbing [BREAKS] in the show
-    (track) => track.program_title === programName && track.title !== null
-  );
-
-  // programSongsRaw is read only so make a copy to update object key/values
-  const programSongs = JSON.parse(JSON.stringify(programSongsRaw));
-  return programSongs;
 }
 
 export default ShowDisplay;

@@ -1,6 +1,6 @@
 .showDisplay {
   width: 90%;
-  // max-width: 30rem;
+  max-width: 40rem;
   margin: 0 auto;
   text-align: left;
   margin-top: 3rem;
@@ -27,9 +27,10 @@
       border-bottom: 1px solid #BABABA;
       font-weight: 200;
       font-size: 1rem;
-      option {
+      .programOptions {
+        display: inline-block;
         background-color: #F4F4F4;
-        padding: 0 5rem;
+        padding: 5rem;
         border-bottom: 1px solid white;
       }
     }

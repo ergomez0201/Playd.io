@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 // functions for Datepicker library
 import DatePicker from 'react-datepicker';
@@ -50,7 +51,7 @@ function DateSelector(props) {
               justifyContent: 'center',
             }}
           >
-            <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled}>
+            <button type="button" onClick={decreaseMonth} disabled={prevMonthButtonDisabled}>
               {'<'}
             </button>
             <select value={getYear(date)} onChange={({ target: { value } }) => changeYear(value)}>
@@ -72,7 +73,7 @@ function DateSelector(props) {
               ))}
             </select>
 
-            <button onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
+            <button type="button" onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
               {'>'}
             </button>
           </div>
@@ -93,5 +94,11 @@ function DateSelector(props) {
     </div>
   );
 }
+
+DateSelector.propTypes = {
+  startDate: PropTypes.string.isRequired,
+  setStartDate: PropTypes.func.isRequired,
+  setSkip: PropTypes.func.isRequired,
+};
 
 export default DateSelector;

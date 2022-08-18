@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 import convert24HourTime from '../utils/dateParser/convert24HourTime';
 import dayOfWeekMapper from '../utils/dateParser/dayOfWeekMapper';
@@ -6,11 +7,11 @@ import monthMapper from '../utils/dateParser/monthMapper';
 
 import styles from './programDetailsDisplay.styles.scss';
 
-function ProgramDetailsDisplay(props) {
-  const { host, programTitle } = props.programDetails;
-  let programStart = parseInt(props.programDetails.programStart, 10);
-  let programEnd = parseInt(props.programDetails.programEnd, 10);
-  const { date } = props;
+function ProgramDetailsDisplay({ programDetails, date }) {
+  const { host, programTitle } = programDetails;
+  let { programStart, programEnd } = programDetails;
+  programStart = parseInt(programDetails.programStart, 10);
+  programEnd = parseInt(programDetails.programEnd, 10);
 
   programStart = convert24HourTime(programStart);
   programEnd = convert24HourTime(programEnd);
@@ -29,5 +30,15 @@ function ProgramDetailsDisplay(props) {
     </div>
   );
 }
+
+ProgramDetailsDisplay.propTypes = {
+  programDetails: PropTypes.exact({
+    host: PropTypes.string,
+    programTitle: PropTypes.string,
+    programStart: PropTypes.string,
+    programEnd: PropTypes.string,
+  }).isRequired,
+  date: PropTypes.instanceOf(Date).isRequired,
+};
 
 export default ProgramDetailsDisplay;

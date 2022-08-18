@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import ShowDisplay from '../../components/showDisplay/showDisplay';
 import MainContainer from '../../components/mainContainer/mainContainer';
 
-import styles from './music.styles.scss';
+import './music.styles.scss';
 
 function Music() {
   const isShowDisplayVisible = useSelector((state) => state.display.isShowDisplayVisible);
@@ -24,9 +24,7 @@ function Music() {
   if (isMobileOrTablet && !isShowDisplayVisible) {
     return (
       <main>
-        <div className={styles.mainContainer}>
-          <MainContainer />
-        </div>
+        <MainContainer />
       </main>
     );
   }
@@ -34,17 +32,9 @@ function Music() {
   return (
     <main>
       <ShowDisplay />
-      <div className={styles.mainContainer}>
-        <MainContainer />
-      </div>
+      <MainContainer />
     </main>
   );
-
-  // return (
-  //   <main>
-  //     <ShowDisplay />
-  //   </main>
-  // );
 }
 
 export default Music;
