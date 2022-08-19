@@ -96,9 +96,13 @@ function DateSelector(props) {
 }
 
 DateSelector.propTypes = {
-  startDate: PropTypes.instanceOf(Date).isRequired,
+  startDate: PropTypes.instanceOf(Date),
   setStartDate: PropTypes.func.isRequired,
   setSkip: PropTypes.func.isRequired,
+};
+
+DateSelector.defaultProps = {
+  startDate: null,
 };
 
 export default DateSelector;

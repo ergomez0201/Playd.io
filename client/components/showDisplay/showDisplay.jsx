@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { dateUpdate, isShowDisplayVisibleUpdate } from '../../store/reducers/displayReducer';
-import { populateTracks } from '../../store/reducers/tracksReducer';
+import { isShowDisplayVisibleUpdate } from '../../store/reducers/displayReducer';
+import { populateTracks, setLoadMoreTracks } from '../../store/reducers/tracksReducer';
 import { useGetKcrwDataQuery } from '../../features/api/apiSlice';
 
 import DateSelector from '../dateSelector/dateSelector';
@@ -38,10 +38,6 @@ function ShowDisplay() {
     [stringYear, stringMonth, stringDay] = dateString.split('/');
   }
 
-  // useEffect(() => {
-  //   dispatch(dateUpdate(dateString));
-  // }, [startDate]);
-
   const { data } = useGetKcrwDataQuery(
     { year: stringYear, month: stringMonth, day: stringDay },
     {
@@ -50,7 +46,7 @@ function ShowDisplay() {
   );
   console.log('this is the data back from kcrw api: ', data);
 
-  function onProgramChange(e) {
+  function onProgramChange() {
     // this will be a function to display the show/dj and the time that they are on
     const programName = document.querySelector('#radio-shows').value;
     const programSongs = filterAndMakeReadWriteCopy(programName, data);
@@ -63,7 +59,7 @@ function ShowDisplay() {
     setProgramDetails({ programTitle, programStart, programEnd, host });
   }
 
-  function onProgramSelect(e) {
+  function onProgramSelect() {
     const programName = document.querySelector('#radio-shows').value;
 
     const programSongs = filterAndMakeReadWriteCopy(programName, data);
@@ -144,8 +140,9 @@ function ShowDisplay() {
             <button
               className={styles.showDisplayButton}
               type="button"
-              onClick={(e) => {
-                onProgramSelect(e);
+              onClick={() => {
+                onProgramSelect();
+                dispatch(setLoadMoreTracks(false));
               }}
             >
               Search

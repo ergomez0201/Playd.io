@@ -1,8 +1,14 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-function TrackNumber(props) {
-  const { index } = props;
-  return <p>{index}</p>;
+import styles from './trackNumber.styles.scss';
+
+function TrackNumber({ index }) {
+  return <p className={styles.trackNumber}>{index}</p>;
 }
+
+TrackNumber.propTypes = {
+  index: PropTypes.number.isRequired,
+};
 
 export default TrackNumber;

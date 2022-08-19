@@ -1,22 +1,25 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
-import { populateTracks } from '../../store/reducers/tracksReducer';
+import { useSelector, useDispatch } from 'react-redux';
+import { setLoadMoreTracks } from '../../store/reducers/tracksReducer';
 
 import TrackContainer from '../trackContainer/trackContainer';
 
 import styles from './trackDisplay.styles.scss';
 
 function TrackDisplay({ populatedTracks }) {
-  const [hasBeenRequested, setHasBeenRequested] = useState(false);
+  const loadMoreTracks = useSelector((state) => state.tracks.loadMoreTracks);
+
+  const dispatch = useDispatch();
 
   const trackDisplayData = populatedTracks.map((track, i) => (
-    <div className={styles.trackContainer}>
+    <div className={styles.trackContainer} key={`div-${track.play_id}`}>
       <TrackContainer
         key={track.play_id}
         index={i}
         albumImage={track.albumImage}
         title={track.title}
+        artist={track.artist}
         album={track.album}
       />
     </div>
@@ -29,22 +32,22 @@ function TrackDisplay({ populatedTracks }) {
     <>
       <div className={styles.trackDisplay}>
         <p>No.</p>
-        <p>Title</p>
+        <p>Title | Artists</p>
         <p>Album</p>
       </div>
       {initialDisplayData}
-      {!hasBeenRequested && (
+      {!loadMoreTracks && (
         <button
           className={styles.loadMoreButton}
           type="button"
           onClick={() => {
-            setHasBeenRequested(true);
+            dispatch(setLoadMoreTracks(true));
           }}
         >
           LOAD MORE
         </button>
       )}
-      {hasBeenRequested && requestMoreDisplayData}
+      {loadMoreTracks && requestMoreDisplayData}
     </>
   );
 }

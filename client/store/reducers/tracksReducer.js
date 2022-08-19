@@ -1430,15 +1430,22 @@ export const trackSlice = createSlice({
   name: 'track',
   // initialState: { tracks: null },
   // for testing and dev purposes:
-  initialState: { tracks: testState },
+  initialState: {
+    tracks: testState,
+    loadMoreTracks: false,
+  },
   reducers: {
     populateTracks: (state, action) => ({
       ...state,
       tracks: action.payload,
     }),
+    setLoadMoreTracks: (state, action) => ({
+      ...state,
+      loadMoreTracks: action.payload,
+    }),
   },
 });
 
-export const { populateTracks } = trackSlice.actions;
+export const { populateTracks, setLoadMoreTracks } = trackSlice.actions;
 
 export default trackSlice.reducer;
