@@ -15,6 +15,13 @@ router.use(cors());
 
 router.get('/tracks', (req, res) => res.status(200).json(data));
 
+router.get('/login', (req, res) => {
+  if (req.cookies.userID) {
+    return res.status(200).json(1);
+  }
+  return res.status(200).json(0);
+});
+
 router.get(
   '/search',
   spotifyAuthController.getClientCredentials,
@@ -44,16 +51,31 @@ router.get(
   spotifyAuthController.getUserTokens,
   spotifyController.getUserID,
   // spotifyController.createUserPlaylist,
-  (req, res) =>
+  (req, res) => {
+    console.log('inside /callback middleware', res.locals);
     // TODO: TEMPORARY SOLUTION: Store tokens in local storage
     // refactor to check access token expiration and tokens using redis
-    res.status(200).send(`<script>
-    localStorage.setItem('accessToken', '${res.locals.accessToken}');
-    localStorage.setItem('refreshToken', '${res.locals.refreshToken}');
-    localStorage.setItem('expire', '${res.locals.expires_in}');
-    localStorage.setItem('userID', '${res.locals.userID}');
+    // localStorage.setItem('accessToken', '${res.locals.accessToken}');
+    // localStorage.setItem('refreshToken', '${res.locals.refreshToken}');
+    // localStorage.setItem('expire', '${res.locals.expires_in}');
+    // localStorage.setItem('userID', '${res.locals.userID}');
+    return res
+      .status(200)
+      .cookie('accessToken', `${res.locals.accessToken}`, {
+        httpOnly: true,
+        expires: new Date(Date.now() + res.locals.expires_in),
+      })
+      .cookie('refreshToken', `${res.locals.refreshToken}`, {
+        httpOnly: true,
+        expires: new Date(Date.now() + 1 * 7 * 24 * 60 * 60 * 1000),
+      })
+      .cookie('userID', `${res.locals.userID}`, {
+        httpOnly: true,
+        expires: new Date(Date.now() + 1 * 365 * 24 * 60 * 60 * 1000),
+      }).send(`<script>
     window.close();
-    </script>`)
+    </script>`);
+  }
 );
 
 router.post('/playlist', spotifyController.createUserPlaylist, (req, res) =>

@@ -2,9 +2,9 @@ import React from 'react';
 import { Outlet, Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { isShowDisplayVisibleUpdate } from '../../store/reducers/displayReducer';
-import SearchIcon from '../../../assets/images/searchIcon.svg';
+import PlaydioLogo from '../../../assets/images/playdio.svg';
 
-import styles from './navbar.styles.scss';
+import './navbar.styles.scss';
 
 function Navbar() {
   const dispatch = useDispatch();
@@ -13,7 +13,7 @@ function Navbar() {
     <>
       <nav>
         <Link to="/" onClick={() => dispatch(isShowDisplayVisibleUpdate(true))}>
-          <h1 className={styles.logo}>Playd.io</h1>
+          <img src={PlaydioLogo} alt="playd.io logo" />
         </Link>
       </nav>
       <Outlet />

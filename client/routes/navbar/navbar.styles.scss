@@ -4,22 +4,12 @@
 nav {
   background-color: #005A9C;
   min-height: 3.5rem;
-  display: flex;
-  justify-content: space-between;
-
-  a {
-    display: inline-block;
-    text-decoration: none;
-    color:rgb(220, 220, 220);
+  img {
+    width: 20%;
+    min-width: 10rem;
+    min-height: 3.5rem;
+    margin: 0 auto;
+    padding: 1rem;
+    display: block;
   }
-
-  .logo {
-    font-family: 'Edu TAS Beginner', cursive;
-    font-weight: 700;
-    font-size: 2rem;
-    text-decoration: none;
-    margin-left: .5rem;
-    color:rgb(220, 220, 220);
-  }
-
 }
