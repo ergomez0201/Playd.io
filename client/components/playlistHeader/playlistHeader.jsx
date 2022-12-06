@@ -2,6 +2,8 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { playlistTitleUpdate } from '../../store/reducers/displayReducer';
 
+import SpotifyContainer from '../spotifyContainer/spotifyContainer';
+
 import styles from './playlistHeader.styles.scss';
 
 function PlaylistHeader() {
@@ -14,6 +16,7 @@ function PlaylistHeader() {
         <h2>{playlistTitle}</h2>
         <p>{playlistDate}</p>
       </header>
+      <SpotifyContainer />
       <label htmlFor="playlistTitle" className={styles.playlistTitle}>
         <p>PLAYLIST TITLE:</p>
         <input

@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { isShowDisplayVisibleUpdate } from '../../store/reducers/displayReducer';
+import { isShowDisplayVisibleUpdate, dateUpdate } from '../../store/reducers/displayReducer';
 import { populateTracks, setLoadMoreTracks } from '../../store/reducers/tracksReducer';
 import { useGetKcrwDataQuery } from '../../features/api/apiSlice';
 
@@ -8,8 +8,10 @@ import DateSelector from '../dateSelector/dateSelector';
 import ProgramDetailsDisplay from '../programDetailsDisplay/programDetailsDisplay';
 import { dateToStringYMD } from '../utils/dateParser/dateParser';
 import filterAndMakeReadWriteCopy from '../utils/dataCopy/filterAndMakeReadWriteCopy';
+import monthMapper from '../utils/dateParser/monthMapper';
 
 import styles from './showDisplay.styles.scss';
+import ProgramSelectForm from '../programSelectForm/programSelectForm';
 
 function ShowDisplay() {
   // temporary environment variable for development
@@ -46,22 +48,11 @@ function ShowDisplay() {
   );
   console.log('this is the data back from kcrw api: ', data);
 
-  function onProgramChange() {
-    // this will be a function to display the show/dj and the time that they are on
-    const programName = document.querySelector('#radio-shows').value;
-    const programSongs = filterAndMakeReadWriteCopy(programName, data);
-
-    const programTitle = programSongs[0].program_title;
-    const programStart = programSongs[0].program_start;
-    const programEnd = programSongs[0].program_end;
-    const { host } = programSongs[0];
-
-    setProgramDetails({ programTitle, programStart, programEnd, host });
-  }
-
   function onProgramSelect() {
-    const programName = document.querySelector('#radio-shows').value;
+    const [dayOfWeek, month, day, year] = startDate.toString().split(' ');
+    dispatch(dateUpdate(`${monthMapper[month]} ${day}, ${year}`));
 
+    const programName = programDetails.programTitle;
     const programSongs = filterAndMakeReadWriteCopy(programName, data);
     dispatch(isShowDisplayVisibleUpdate(false));
 
@@ -73,92 +64,86 @@ function ShowDisplay() {
     } else {
       // there are a lot of tracks in the KCRW api that don't have an existing spotify id -
       // make an initial request to spotify api to see if the songs are available
-      const fetches = [];
-      for (let i = 0; i < programSongs.length; i++) {
-        if (programSongs[i].spotify_id === null) {
-          console.log(programSongs[i].spotify_id, i);
-          fetches.push(
-            fetch(`/api/search?title=${programSongs[i].title}&artist=${programSongs[i].artist}`)
-              .then((res) => res.json())
-              .then((url) => {
-                const { spotifyUri, albumImage, albumImageLarge } = url;
-                if (spotifyUri) {
-                  const uriString = spotifyUri.split(':')[2];
-                  // track.spotify_id = uriString;
-                  programSongs[i].spotify_id = uriString;
-                  // console.log(programSongs[index].spotify_id, uriString);
-                }
-                if (albumImage && albumImageLarge) {
-                  programSongs[i].albumImage = albumImage;
-                  programSongs[i].albumImageLarge = albumImageLarge;
-                }
-              })
-              .catch((err) =>
-                console.log(
-                  'there was an error in requesting track info from spotify API. Message: ',
-                  err
-                )
-              )
-          );
-        }
-      }
-
-      Promise.all(fetches).then(() => {
-        console.log('programSongs after all promises resolved: ', programSongs);
+      const missingDataArr = fetchMissingIds(programSongs);
+      Promise.all(missingDataArr).then(() => {
         dispatch(populateTracks(programSongs));
       });
     }
   }
 
   // parse through data that came back from kcrw api and create a program list from the array
+  const programNameSet = new Set();
+  let programNames;
+
   if (data) {
-    const programNameSet = new Set();
     data.forEach((program) => programNameSet.add(program.program_title));
-    const programNames = [...programNameSet].map((program) => (
+    programNames = [...programNameSet].map((program) => (
       <option key={program} value={program}>
         {program}
       </option>
     ));
     console.log('program names: ', programNames);
-
-    return (
-      <div className={styles.showDisplay}>
-        <h2>SELECT A KCRW DJ/SHOW</h2>
-        <DateSelector setStartDate={setStartDate} startDate={startDate} setSkip={setSkip} />
-        <form>
-          <label htmlFor="radio-shows">Program </label>
-          <select id="radio-shows" onChange={onProgramChange}>
-            <option value="" hidden>
-              Choose a program
-            </option>
-            {programNames}
-          </select>
-        </form>
-        {programDetails && (
-          <>
-            <ProgramDetailsDisplay programDetails={programDetails} date={startDate} />
-            <button
-              className={styles.showDisplayButton}
-              type="button"
-              onClick={() => {
-                onProgramSelect();
-                dispatch(setLoadMoreTracks(false));
-              }}
-            >
-              Search
-            </button>
-          </>
-        )}
-      </div>
-    );
   }
 
   return (
     <div className={styles.showDisplay}>
       <h2>SELECT A KCRW DJ/SHOW</h2>
       <DateSelector setStartDate={setStartDate} startDate={startDate} setSkip={setSkip} />
+      {data && (
+        <ProgramSelectForm
+          data={data}
+          setProgramDetails={setProgramDetails}
+          programNames={programNames}
+        />
+      )}
+      {programDetails && (
+        <>
+          <ProgramDetailsDisplay programDetails={programDetails} date={startDate} />
+          <button
+            className={styles.showDisplayButton}
+            type="button"
+            onClick={() => {
+              onProgramSelect();
+              dispatch(setLoadMoreTracks(false));
+            }}
+          >
+            Search
+          </button>
+        </>
+      )}
     </div>
   );
+}
+
+function fetchMissingIds(programSongs) {
+  const fetches = [];
+  for (let i = 0; i < programSongs.length; i++) {
+    if (programSongs[i].spotify_id === null) {
+      fetches.push(
+        fetch(`/api/search?title=${programSongs[i].title}&artist=${programSongs[i].artist}`)
+          .then((res) => res.json())
+          .then((url) => {
+            const { spotifyUri, albumImage, albumImageLarge } = url;
+            if (spotifyUri) {
+              const uriString = spotifyUri.split(':')[2];
+              programSongs[i].spotify_id = uriString;
+            }
+            if (albumImage && albumImageLarge) {
+              programSongs[i].albumImage = albumImage;
+              programSongs[i].albumImageLarge = albumImageLarge;
+            }
+          })
+          .catch((err) =>
+            console.log(
+              'there was an error in requesting track info from spotify API. Message: ',
+              err
+            )
+          )
+      );
+    }
+  }
+
+  return fetches;
 }
 
 export default ShowDisplay;

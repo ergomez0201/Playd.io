@@ -4,15 +4,16 @@ const spotifyController = {};
 
 spotifyController.getSongUri = (req, res, next) => {
   const { title, artist } = req.query;
+  console.log('title and artist in spotifyController: ', title, artist);
+  const encodedTitle = encodeURIComponent(title);
+  const encodedArtist = encodeURIComponent(artist);
+  const uri = `https://api.spotify.com/v1/search?q=track:${encodedTitle} artist:${encodedArtist}&type=track&market=US`;
   axios
-    .get(
-      `https://api.spotify.com/v1/search?q=track:${title} artist:${artist}&type=track&market=US`,
-      {
-        headers: {
-          Authorization: `Bearer ${res.locals.accessToken}`,
-        },
-      }
-    )
+    .get(uri, {
+      headers: {
+        Authorization: `Bearer ${res.locals.accessToken}`,
+      },
+    })
     .then((response) => {
       const trackArray = response.data.tracks.items;
       if (trackArray.length === 0) {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { useSelector } from 'react-redux';
 
@@ -10,29 +10,25 @@ import './music.styles.scss';
 function Music() {
   const isShowDisplayVisible = useSelector((state) => state.display.isShowDisplayVisible);
   const isMobileOrTablet = useMediaQuery({ query: '(max-width: 768px)' });
-  const isLaptopOrDesktop = useMediaQuery({ query: '(min-width: 768px)' });
 
-  console.log('isShowDisplayVisible: ', isShowDisplayVisible);
+  let containerToRender;
 
-  if (isMobileOrTablet && isShowDisplayVisible) {
-    return (
-      <main>
-        <ShowDisplay />
-      </main>
-    );
-  }
-  if (isMobileOrTablet && !isShowDisplayVisible) {
-    return (
-      <main>
-        <MainContainer />
-      </main>
-    );
+  if (isShowDisplayVisible) {
+    containerToRender = <ShowDisplay />;
+  } else {
+    containerToRender = <MainContainer />;
   }
 
   return (
     <main>
-      <ShowDisplay />
-      <MainContainer />
+      {isMobileOrTablet ? (
+        containerToRender
+      ) : (
+        <>
+          <ShowDisplay />
+          <MainContainer />
+        </>
+      )}
     </main>
   );
 }

@@ -22,9 +22,9 @@ function ProgramDetailsDisplay({ programDetails, date }) {
 
   const [dayOfWeek, month, day, year] = date.toString().split(' ');
 
-  useEffect(() => {
-    dispatch(dateUpdate(`${monthMapper[month]} ${day}, ${year}`));
-  }, [date]);
+  // useEffect(() => {
+  //   dispatch(dateUpdate(`${monthMapper[month]} ${day}, ${year}`));
+  // }, [date]);
 
   return (
     <div className={styles.detailsDisplay}>
