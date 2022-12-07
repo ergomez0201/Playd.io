@@ -4,8 +4,7 @@ require('dotenv').config();
 
 const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
-const redirect_uri = 'http://localhost:8080/api/callback';
-// const redirect_uri = 'http://localhost:8080/';
+const redirect_uri = process.env.REDIRECT_URI;
 
 let challenge;
 
@@ -116,9 +115,6 @@ spotifyAuthController.getUserTokens = (req, res, next) => {
         res.locals.accessToken = response.data.access_token;
         res.locals.refreshToken = response.data.refresh_token;
         res.locals.expires_in = response.data.expires_in;
-        // console.log('this is res locals: ', res.locals);
-
-        // temporary - send access tokens to browser
 
         return next();
       })
@@ -132,12 +128,13 @@ spotifyAuthController.getUserTokens = (req, res, next) => {
 };
 
 spotifyAuthController.getNewTokens = (req, res, next) => {
-  const { refresh_token } = req.query;
+  const { refreshToken } = req.cookies;
   const userAuthOptions = {
-    url: 'https://accounts/spotify.com/api/token',
-    body: {
+    method: 'post',
+    url: 'https://accounts.spotify.com/api/token',
+    params: {
       grant_type: 'refresh_token',
-      refresh_token,
+      refresh_token: refreshToken,
       client_id,
     },
     headers: {
@@ -153,9 +150,7 @@ spotifyAuthController.getNewTokens = (req, res, next) => {
     .then((response) => {
       res.locals.accessToken = response.data.access_token;
       res.locals.expires_in = response.data.expires_in;
-      // console.log('this is res locals: ', res.locals);
-
-      // temporary - send access tokens to browser
+      res.locals.refreshToken = response.data.refresh_token;
 
       return next();
     })

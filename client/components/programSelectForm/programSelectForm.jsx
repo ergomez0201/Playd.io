@@ -6,8 +6,6 @@ function ProgramSelectForm({ data, setProgramDetails, programNames }) {
   const selectValue = useRef(null);
 
   const onProgramChange = () => {
-    // this will be a function to display the show/dj and the time that they are on
-    // const programName = document.querySelector('#radio-shows').value;
     const programName = selectValue.current.value;
     const programSongs = filterAndMakeReadWriteCopy(programName, data);
 

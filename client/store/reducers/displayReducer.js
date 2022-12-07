@@ -7,6 +7,7 @@ const displaySlice = createSlice({
     playlistTitle: null,
     isShowDisplayVisible: true,
     spotifyPlaylistName: null,
+    isLoggedIn: false,
   },
   reducers: {
     dateUpdate: (state, action) => ({
@@ -25,6 +26,10 @@ const displaySlice = createSlice({
       ...state,
       spotifyPlaylistName: action.payload,
     }),
+    isLoggedInUpdate: (state, action) => ({
+      ...state,
+      isLoggedIn: action.payload,
+    }),
   },
 });
 
@@ -33,6 +38,7 @@ export const {
   playlistTitleUpdate,
   isShowDisplayVisibleUpdate,
   spotifyPlaylistNameUpdate,
+  isLoggedInUpdate,
 } = displaySlice.actions;
 
 export default displaySlice.reducer;

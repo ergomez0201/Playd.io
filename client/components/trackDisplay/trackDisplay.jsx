@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { setLoadMoreTracks } from '../../store/reducers/tracksReducer';
@@ -13,7 +13,12 @@ function TrackDisplay({ populatedTracks }) {
   const dispatch = useDispatch();
 
   const trackDisplayData = populatedTracks.map((track, i) => (
-    <div className={styles.trackContainer} key={`div-${track.play_id}`}>
+    <div
+      className={`${styles.trackContainer} ${
+        track.available && track.include ? null : styles.unavailable
+      }`}
+      key={`div-${track.play_id}`}
+    >
       <TrackContainer
         key={track.play_id}
         index={i}
@@ -21,6 +26,8 @@ function TrackDisplay({ populatedTracks }) {
         title={track.title}
         artist={track.artist}
         album={track.album}
+        available={track.available}
+        include={track.include}
       />
     </div>
   ));

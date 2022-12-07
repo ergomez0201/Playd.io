@@ -13,11 +13,6 @@
   text-align: center;
   font-size: 1rem;
   background-color: rgb(224, 224, 224, .5);
-  img {
-    width: 18%;
-    display: block;
-    margin: 2rem auto;
-  }
   p{
     align-self: center;
     margin: 0 1rem 1rem;
@@ -43,8 +38,15 @@
     display: block;
     background-color: inherit;
   }
-  button {
-    display: block;
+}
+
+.spotifyLoginButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    min-width: 8rem;
+    max-width: 10rem;
     margin: 1rem auto;
     padding: 0.8rem;
     background-color: #1DB954;
@@ -56,5 +58,60 @@
   }
   button:hover {
     opacity: 80%;
-  }
+}
+
+.spotifyLogo {
+    width: 18%;
+    min-width: 6rem;
+    display: block;
+    margin: 2rem auto;
+}
+
+.spotifyIcon {
+  width: 20%;
+  display: inline;
+  margin-right: .2rem;
+}
+
+.playlistAndLogout {
+  display: flex;
+  width: 50%;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+}
+
+.createPlaylistButton {
+  display: inline-block;
+  width: 25%;
+  min-width: 9rem;
+  max-width: 10rem;
+  margin: 1rem auto;
+  padding: 0.8rem;
+  border-radius: 10px;
+  background-color: #005A9C;
+  color: white;
+  font-size: 1.1rem;
+}
+
+.spotifyLogoutButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25%;
+  min-width: 8rem;
+  max-width: 10rem;
+  margin: 1rem auto;
+  padding: 0.8rem;
+  border: 4px solid #000;
+  background-color: white;
+  color: #000;
+  font-weight: 700;
+  font-size: 1.1rem;
+  transition-duration: 0.4s;
+}
+
+.spotifyLogoutButton:hover {
+    background-color: #000;
+    color: white;
 }

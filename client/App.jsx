@@ -3,19 +3,21 @@ import { Routes, Route } from 'react-router-dom';
 
 import Navbar from './routes/navbar/navbar';
 import Music from './routes/music/music';
-// import About from './routes/about/about';
+import Footer from './routes/footer/footer';
 
 // styles and assets
-import './App.scss';
+import styles from './App.scss';
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Navbar />}>
-        <Route index element={<Music />} />
-        {/* <Route path="/about" element={<About />} /> */}
-      </Route>
-    </Routes>
+    <div className={styles.pageContainer}>
+      <Routes>
+        <Route path="/" element={<Navbar />}>
+          <Route index element={<Music />} />
+        </Route>
+      </Routes>
+      <Footer />
+    </div>
   );
 }
 

@@ -9,17 +9,36 @@ const spotifyAuthController = require('../controllers/spotifyAuthController');
 
 router.use(cors());
 
-// router.get('/tracks', kcrwController.getSongs, (req, res) =>
-//   res.status(200).json(res.locals.kcrwData)
-// );
+router.get('/tracks', kcrwController.getSongs, (req, res) =>
+  res.status(200).json(res.locals.kcrwData)
+);
 
-router.get('/tracks', (req, res) => res.status(200).json(data));
+// router.get('/tracks', (req, res) => res.status(200).json(data));
 
 router.get('/login', (req, res) => {
-  if (req.cookies.userID) {
-    return res.status(200).json(1);
+  const queryUserID = req.query.userID;
+  const cookieUserID = req.cookies.userID;
+
+  if (!queryUserID || !cookieUserID) {
+    return res.status(200).json(false);
   }
-  return res.status(200).json(0);
+  if (queryUserID !== cookieUserID) {
+    return res.status(200).json(false);
+  }
+  return res.status(200).json(true);
+});
+
+router.get('/logout', (req, res) => {
+  res.clearCookie('accessToken', {
+    httpOnly: true,
+  });
+  res.clearCookie('refreshToken', {
+    httpOnly: true,
+  });
+  res.clearCookie('userID', {
+    httpOnly: true,
+  });
+  res.status(200).json('all cookies cleared');
 });
 
 router.get(
@@ -27,18 +46,6 @@ router.get(
   spotifyAuthController.getClientCredentials,
   spotifyController.getSongUri,
   (req, res) => res.status(200).json(res.locals)
-);
-
-router.post(
-  '/',
-  kcrwController.getSongs,
-  spotifyAuthController.getClientCredentials,
-  spotifyController.sendSongID,
-  (req, res) => {
-    console.log('inside last middleware: ');
-    const { radioShow, trackData } = res.locals;
-    res.status(200).send({ radioShow, trackData });
-  }
 );
 
 // connecting user to spotify
@@ -50,16 +57,8 @@ router.get(
   '/callback',
   spotifyAuthController.getUserTokens,
   spotifyController.getUserID,
-  // spotifyController.createUserPlaylist,
-  (req, res) => {
-    console.log('inside /callback middleware', res.locals);
-    // TODO: TEMPORARY SOLUTION: Store tokens in local storage
-    // refactor to check access token expiration and tokens using redis
-    // localStorage.setItem('accessToken', '${res.locals.accessToken}');
-    // localStorage.setItem('refreshToken', '${res.locals.refreshToken}');
-    // localStorage.setItem('expire', '${res.locals.expires_in}');
-    // localStorage.setItem('userID', '${res.locals.userID}');
-    return res
+  (req, res) =>
+    res
       .status(200)
       .cookie('accessToken', `${res.locals.accessToken}`, {
         httpOnly: true,
@@ -73,13 +72,34 @@ router.get(
         httpOnly: true,
         expires: new Date(Date.now() + 1 * 365 * 24 * 60 * 60 * 1000),
       }).send(`<script>
+      localStorage.setItem('userID', '${res.locals.userID}');
     window.close();
-    </script>`);
-  }
+    </script>`)
 );
 
-router.post('/playlist', spotifyController.createUserPlaylist, (req, res) =>
-  res.status(200).send('this is from the playlist middleware')
+router.post(
+  '/playlist',
+  spotifyAuthController.getNewTokens,
+  spotifyController.createUserPlaylist,
+  (req, res) => {
+    res.clearCookie('accessToken', {
+      httpOnly: true,
+    });
+    res.clearCookie('refreshToken', {
+      httpOnly: true,
+    });
+    res
+      .status(200)
+      .cookie('accessToken', `${res.locals.accessToken}`, {
+        httpOnly: true,
+        expires: new Date(Date.now() + res.locals.expires_in),
+      })
+      .cookie('refreshToken', `${res.locals.refreshToken}`, {
+        httpOnly: true,
+        expires: new Date(Date.now() + 1 * 7 * 24 * 60 * 60 * 1000),
+      })
+      .json('Success!');
+  }
 );
 
 module.exports = router;

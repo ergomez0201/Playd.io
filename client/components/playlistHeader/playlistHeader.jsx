@@ -4,7 +4,7 @@ import SpotifyContainer from '../spotifyContainer/spotifyContainer';
 
 import './playlistHeader.styles.scss';
 
-function PlaylistHeader({ playlistTitle, playlistDate }) {
+function PlaylistHeader({ playlistTitle, playlistDate, populatedTracks }) {
   return (
     <>
       <header>
@@ -12,7 +12,11 @@ function PlaylistHeader({ playlistTitle, playlistDate }) {
         <p>{playlistDate}</p>
       </header>
       {playlistTitle && playlistDate && (
-        <SpotifyContainer playlistTitle={playlistTitle} playlistDate={playlistDate} />
+        <SpotifyContainer
+          playlistTitle={playlistTitle}
+          playlistDate={playlistDate}
+          populatedTracks={populatedTracks}
+        />
       )}
     </>
   );

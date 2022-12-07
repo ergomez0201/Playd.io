@@ -7,6 +7,7 @@ import TrackDisplay from '../trackDisplay/trackDisplay';
 import {
   playlistTitleUpdate,
   spotifyPlaylistNameUpdate,
+  isLoggedInUpdate,
 } from '../../store/reducers/displayReducer';
 
 import styles from './mainContainer.styles.scss';
@@ -15,12 +16,7 @@ function MainContainer() {
   const dispatch = useDispatch();
   const populatedTracks = useSelector((state) => state.tracks.tracks);
   const playlistTitle = useSelector((state) => state.display.playlistTitle);
-  const stringDate = useSelector((state) => state.display.date);
   const playlistDate = useSelector((state) => state.display.date);
-
-  console.log('this is the stringdate from redux: ', stringDate);
-  console.log('this is the populated tracks in mainContainer component: ', populatedTracks);
-  console.log('this is the playlistTitle in redux: ', playlistTitle);
 
   useEffect(() => {
     if (populatedTracks) {
@@ -31,20 +27,51 @@ function MainContainer() {
   }, [populatedTracks, playlistTitle]);
 
   useEffect(() => {
-    fetch('/api/login')
-      .then((res) => res.json())
-      .then((data) => console.log(data));
+    const checkAuth = async () => {
+      const isAuth = await checkLogin();
+      return isAuth;
+    };
+
+    checkAuth().then((isAuth) => {
+      dispatch(isLoggedInUpdate(isAuth));
+    });
   }, []);
+
+  useEffect(() => {
+    window.addEventListener('storage', (event) => {
+      if (!event.storageArea.userID) {
+        dispatch(isLoggedInUpdate(false));
+      } else {
+        checkLogin().then((isAuth) => {
+          dispatch(isLoggedInUpdate(isAuth));
+        });
+      }
+    });
+  }, []);
+
   return (
     <div className={styles.mainContainer}>
       {populatedTracks && playlistTitle && playlistDate && (
         <>
-          <PlaylistHeader playlistTitle={playlistTitle} playlistDate={playlistDate} />
+          <PlaylistHeader
+            playlistTitle={playlistTitle}
+            playlistDate={playlistDate}
+            populatedTracks={populatedTracks}
+          />
           <TrackDisplay populatedTracks={populatedTracks} />
         </>
       )}
     </div>
   );
+}
+
+async function checkLogin() {
+  const userID = localStorage.getItem('userID');
+  if (!userID) return false;
+
+  const res = await fetch(`/api/login?userID=${userID}`);
+  const data = await res.json();
+  return data;
 }
 
 export default MainContainer;

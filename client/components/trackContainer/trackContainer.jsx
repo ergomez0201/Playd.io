@@ -1,18 +1,17 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 import TrackNumber from '../trackNumber/trackNumber';
-// import TrackImage from '../trackImage/trackImage';
 import TrackTitle from '../trackTitle/trackTitle';
 import TrackAlbum from '../trackAlbum/trackAlbum';
 import TrackArtist from '../trackArtist/trackArtist';
 
 import styles from './trackContainer.styles.scss';
 
-function TrackContainer({ index, title, album, artist }) {
+function TrackContainer({ index, title, album, artist, available, include }) {
   return (
     <>
-      <TrackNumber index={index} />
+      <TrackNumber index={index + 1} />
       <div className={styles.titleAndArtist}>
         <TrackTitle title={title} />
         <TrackArtist artist={artist} />

@@ -1,1 +1,6 @@
 @import './stylesheets/global/reset';
+
+.pageContainer {
+  position: relative;
+  min-height: 100vh;
+}

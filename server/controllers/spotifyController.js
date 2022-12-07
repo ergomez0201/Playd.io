@@ -4,7 +4,6 @@ const spotifyController = {};
 
 spotifyController.getSongUri = (req, res, next) => {
   const { title, artist } = req.query;
-  console.log('title and artist in spotifyController: ', title, artist);
   const encodedTitle = encodeURIComponent(title);
   const encodedArtist = encodeURIComponent(artist);
   const uri = `https://api.spotify.com/v1/search?q=track:${encodedTitle} artist:${encodedArtist}&type=track&market=US`;
@@ -28,26 +27,6 @@ spotifyController.getSongUri = (req, res, next) => {
     .catch((err) => console.log(err));
 };
 
-spotifyController.sendSongID = (req, res, next) => {
-  trackIDArray = [];
-  for (const track of res.locals.radioShow) {
-    if (!trackIDArray.includes(track.spotify_id)) trackIDArray.push(track.spotify_id);
-  }
-  trackIDString = trackIDArray.join(',');
-  console.log('new refresh: ', trackIDString);
-  axios
-    .get(`https://api.spotify.com/v1/tracks?market=US&ids=${trackIDString}`, {
-      headers: {
-        Authorization: `Bearer ${res.locals.accessToken}`,
-      },
-    })
-    .then((response) => {
-      res.locals.trackData = response.data;
-      return next();
-    })
-    .catch((error) => console.log(error));
-};
-
 spotifyController.getUserID = (req, res, next) => {
   axios
     .get(`https://api.spotify.com/v1/me`, {
@@ -64,10 +43,11 @@ spotifyController.getUserID = (req, res, next) => {
 };
 
 spotifyController.createUserPlaylist = (req, res, next) => {
-  // console.log('this is the body: ', req.body);
-  const { songURIArray, showTitle, showDate, userID, accessToken, refreshToken } = req.body;
-  const [year, month, day] = showDate;
-  const date = new Date(year, month - 1, day);
+  const { songURIArray, showTitle, showDate } = req.body;
+  const { userID } = req.cookies;
+  const { accessToken } = res.locals;
+  // const [year, month, day] = showDate;
+  // const date = new Date(year, month - 1, day);
 
   axios({
     url: `https://api.spotify.com/v1/users/${userID}/playlists`,
@@ -76,17 +56,16 @@ spotifyController.createUserPlaylist = (req, res, next) => {
       Authorization: `Bearer ${accessToken}`,
     },
     data: {
-      name: `${showTitle} - ${date.toDateString()}`,
+      name: showTitle,
       description: 'Songs played on KCRW Radio Shows',
       public: false,
     },
   })
     .then((response) => {
-      // console.log(response.data);
       const playlistID = response.data.id;
 
       axios({
-        url: `	https://api.spotify.com/v1/playlists/${playlistID}/tracks`,
+        url: `https://api.spotify.com/v1/playlists/${playlistID}/tracks`,
         method: 'post',
         headers: {
           Authorization: `Bearer ${accessToken}`,

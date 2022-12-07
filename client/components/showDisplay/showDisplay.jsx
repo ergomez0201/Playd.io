@@ -15,7 +15,7 @@ import ProgramSelectForm from '../programSelectForm/programSelectForm';
 
 function ShowDisplay() {
   // temporary environment variable for development
-  const environment = 'dev';
+  const environment = 'prod';
 
   /*
     local state:
@@ -24,6 +24,7 @@ function ShowDisplay() {
       skip assures that the fetch for tracks doesn't happen until a date has been chosen
   */
   const [startDate, setStartDate] = useState(null);
+  const [buttonText, setButtonText] = useState('Search');
   const [programDetails, setProgramDetails] = useState(null);
   const [skip, setSkip] = useState(true);
 
@@ -46,7 +47,6 @@ function ShowDisplay() {
       skip,
     }
   );
-  console.log('this is the data back from kcrw api: ', data);
 
   function onProgramSelect() {
     const [dayOfWeek, month, day, year] = startDate.toString().split(' ');
@@ -54,19 +54,28 @@ function ShowDisplay() {
 
     const programName = programDetails.programTitle;
     const programSongs = filterAndMakeReadWriteCopy(programName, data);
-    dispatch(isShowDisplayVisibleUpdate(false));
-
-    // TODO: have temporary condition to only fetch these things once I'm further down the line, I have dummy data to start formatting
 
     if (environment === 'dev') {
-      console.log(JSON.stringify(programSongs));
+      for (let i = 0; i < programSongs.length; i++) {
+        const available = !!programSongs[i].spotify_id;
+        console.log('available after promise all: ', available);
+        programSongs[i].available = available;
+        programSongs[i].include = available;
+      }
       dispatch(populateTracks(programSongs));
     } else {
       // there are a lot of tracks in the KCRW api that don't have an existing spotify id -
       // make an initial request to spotify api to see if the songs are available
       const missingDataArr = fetchMissingIds(programSongs);
       Promise.all(missingDataArr).then(() => {
+        for (let i = 0; i < programSongs.length; i++) {
+          const available = !!programSongs[i].spotify_id;
+          programSongs[i].available = available;
+          programSongs[i].include = available;
+        }
         dispatch(populateTracks(programSongs));
+        dispatch(isShowDisplayVisibleUpdate(false));
+        setButtonText('Search');
       });
     }
   }
@@ -82,7 +91,6 @@ function ShowDisplay() {
         {program}
       </option>
     ));
-    console.log('program names: ', programNames);
   }
 
   return (
@@ -103,11 +111,12 @@ function ShowDisplay() {
             className={styles.showDisplayButton}
             type="button"
             onClick={() => {
+              setButtonText('Loading...');
               onProgramSelect();
               dispatch(setLoadMoreTracks(false));
             }}
           >
-            Search
+            {buttonText}
           </button>
         </>
       )}

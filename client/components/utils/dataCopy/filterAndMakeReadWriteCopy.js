@@ -2,7 +2,7 @@
 function filterAndMakeReadWriteCopy(programName, rawData) {
   const programSongsRaw = rawData.filter(
     // checking if track.title is null is to prevent grabbing [BREAKS] in the show
-    (track) => track.program_title === programName && track.title !== null
+    (track) => track.program_title === programName && track.title !== null && track.title !== ''
   );
 
   // programSongsRaw is read only so make a copy to update object key/values
