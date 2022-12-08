@@ -17,7 +17,7 @@ const PORT = 3000;
 
 const apiRouter = require('./routes/api');
 
-app.get('/', (req, res) => res.send('Hello from inside the server!'));
+app.get('/', (req, res) => res.sendStatus(200));
 app.use('/api', apiRouter);
 
 app.use((req, res) => res.status(404).json('This page does not exist'));
