@@ -8,6 +8,7 @@ import SpotifyIconWhite from '../../../assets/images/Spotify_Icon_RGB_White.png'
 import SpotifyIconBlack from '../../../assets/images/Spotify_Icon_RGB_Black.png';
 
 import styles from './spotifyContainer.styles.scss';
+import configData from '../../../config.json';
 
 function SpotifyContainer({ playlistTitle, playlistDate, populatedTracks }) {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ function SpotifyContainer({ playlistTitle, playlistDate, populatedTracks }) {
   const onLogoutClick = () => {
     localStorage.clear();
     dispatch(isLoggedInUpdate(false));
-    fetch('/api/logout')
+    fetch(`${configData.REACT_APP_SERVER_URL}logout`)
       .then((res) => res.json())
       .then((data) => console.log(data));
   };
@@ -41,7 +42,7 @@ function SpotifyContainer({ playlistTitle, playlistDate, populatedTracks }) {
       showDate: playlistDate,
     };
 
-    fetch('/api/playlist', {
+    fetch(`${configData.REACT_APP_SERVER_URL}playlist`, {
       method: 'POST',
       headers: {
         'Content-Type': 'Application/JSON',

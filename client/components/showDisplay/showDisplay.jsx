@@ -12,6 +12,7 @@ import monthMapper from '../utils/dateParser/monthMapper';
 
 import styles from './showDisplay.styles.scss';
 import ProgramSelectForm from '../programSelectForm/programSelectForm';
+import configData from '../../../config.json';
 
 function ShowDisplay() {
   // temporary environment variable for development
@@ -129,7 +130,9 @@ function fetchMissingIds(programSongs) {
   for (let i = 0; i < programSongs.length; i++) {
     if (programSongs[i].spotify_id === null) {
       fetches.push(
-        fetch(`/api/search?title=${programSongs[i].title}&artist=${programSongs[i].artist}`)
+        fetch(
+          `${configData.REACT_APP_SERVER_URL}search?title=${programSongs[i].title}&artist=${programSongs[i].artist}`
+        )
           .then((res) => res.json())
           .then((url) => {
             const { spotifyUri, albumImage, albumImageLarge } = url;

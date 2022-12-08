@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
+import configData from "../../../config.json";
 import PlaylistHeader from '../playlistHeader/playlistHeader';
 import TrackDisplay from '../trackDisplay/trackDisplay';
 
@@ -69,7 +70,7 @@ async function checkLogin() {
   const userID = localStorage.getItem('userID');
   if (!userID) return false;
 
-  const res = await fetch(`/api/login?userID=${userID}`);
+  const res = await fetch(`${configData.REACT_APP_SERVER_URL}login?userID=${userID}`);
   const data = await res.json();
   return data;
 }
