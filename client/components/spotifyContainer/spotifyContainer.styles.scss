@@ -75,15 +75,15 @@
 
 .playlistAndLogout {
   display: flex;
-  width: 50%;
+  width: 80%;
   margin: 0 auto;
   justify-content: center;
-  align-items: center;
+  flex-wrap: wrap;
 }
 
 .createPlaylistButton {
-  display: inline-block;
-  width: 25%;
+  display: inline;
+  width: 50%;
   min-width: 9rem;
   max-width: 10rem;
   margin: 1rem auto;
