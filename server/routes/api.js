@@ -36,7 +36,7 @@ router.get('/logout', (req, res) => {
     httpOnly: true,
   });
   res.clearCookie('userID', {
-    httpOnly: false,
+    httpOnly: true,
   });
   res.status(200).json('all cookies cleared');
 });
@@ -69,12 +69,12 @@ router.get(
         expires: new Date(Date.now() + 1 * 7 * 24 * 60 * 60 * 1000),
       })
       .cookie('userID', `${res.locals.userID}`, {
-        httpOnly: false,
+        httpOnly: true,
         expires: new Date(Date.now() + 1 * 365 * 24 * 60 * 60 * 1000),
       }).send(`<script>
+      localStorage.setItem('userID', '${res.locals.userID}');
   window.close();
   </script>`)
-  // localStorage.setItem('userID', '${res.locals.userID}');
 );
 
 router.post(
