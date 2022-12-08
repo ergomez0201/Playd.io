@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server/server.js",
     "dev": "concurrently \"cross-env NODE_ENV=development webpack serve\" \"nodemon ./server/server.js\"",
-    "build": "cross-env NODE_ENV=production webpack",
+    "build": "NODE_ENV=production webpack",
     "test": "jest"
   },
   "jest": {
