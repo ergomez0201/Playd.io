@@ -4,7 +4,7 @@ require('dotenv').config();
 
 const client_id = process.env.CLIENT_ID;
 const client_secret = process.env.CLIENT_SECRET;
-const redirect_uri = process.env.REDIRECT_URI_PROD;
+const redirect_uri = process.env.REDIRECT_URI_DEV;
 
 let challenge;
 
@@ -119,7 +119,7 @@ spotifyAuthController.getUserTokens = (req, res, next) => {
         return next();
       })
       .catch((error) => {
-        console.log(error);
+        console.log('Request failed: User canceled Spotify Auth');
         return res.status(201).send(`<script>
         window.close()
         </script>`);

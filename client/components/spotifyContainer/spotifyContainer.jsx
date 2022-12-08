@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { isLoggedInUpdate, spotifyPlaylistNameUpdate } from '../../store/reducers/displayReducer';
@@ -11,13 +11,44 @@ import styles from './spotifyContainer.styles.scss';
 import configData from '../../../config.json';
 
 function SpotifyContainer({ playlistTitle, playlistDate, populatedTracks }) {
+  const [externalPopup, setExternalPopup] = useState(null);
   const dispatch = useDispatch();
 
   const spotifyPlaylistName = useSelector((state) => state.display.spotifyPlaylistName);
   const isLoggedIn = useSelector((state) => state.display.isLoggedIn);
 
+  console.log('externalPopup: ', externalPopup);
+
+  useEffect(() => {
+    if (!externalPopup) {
+      return;
+    }
+
+    const timer = setInterval(() => {
+      if (!externalPopup) {
+        timer && clearInterval(timer);
+        return;
+      }
+      const isClosed = externalPopup.closed;
+
+      if (isClosed) {
+        if (document.cookie.includes('userID')) {
+          const cookieValue = document.cookie
+            .split('; ')
+            .find((row) => row.startsWith('userID='))
+            .split('=')[1];
+          localStorage.setItem('userID', cookieValue);
+          dispatch(isLoggedInUpdate(true));
+        }
+        setExternalPopup(null);
+        timer && clearInterval(timer);
+      }
+    }, 500);
+  }, [externalPopup]);
+
   const onLoginClick = () => {
-    window.open(`${configData.REACT_APP_SERVER_URL}spotify`, '_blank');
+    const popup = window.open(`${configData.REACT_APP_SERVER_URL}spotify`, '_blank');
+    setExternalPopup(popup);
   };
 
   const onLogoutClick = () => {
