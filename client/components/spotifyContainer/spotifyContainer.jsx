@@ -17,7 +17,7 @@ function SpotifyContainer({ playlistTitle, playlistDate, populatedTracks }) {
   const isLoggedIn = useSelector((state) => state.display.isLoggedIn);
 
   const onLoginClick = () => {
-    window.open('/api/spotify', '_blank');
+    window.open(`${configData.REACT_APP_SERVER_URL}spotify`, '_blank');
   };
 
   const onLogoutClick = () => {
