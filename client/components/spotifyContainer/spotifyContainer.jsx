@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { isLoggedInUpdate, spotifyPlaylistNameUpdate } from '../../store/reducers/displayReducer';
@@ -11,44 +11,15 @@ import styles from './spotifyContainer.styles.scss';
 import configData from '../../../config.json';
 
 function SpotifyContainer({ playlistTitle, playlistDate, populatedTracks }) {
-  const [externalPopup, setExternalPopup] = useState(null);
+  const [buttonText, setButtonText] = useState('Create Playlist');
+  const [buttonDisabled, setButtonDisabled] = useState(false);
   const dispatch = useDispatch();
 
   const spotifyPlaylistName = useSelector((state) => state.display.spotifyPlaylistName);
   const isLoggedIn = useSelector((state) => state.display.isLoggedIn);
 
-  console.log('externalPopup: ', externalPopup);
-
-  useEffect(() => {
-    if (!externalPopup) {
-      return;
-    }
-
-    const timer = setInterval(() => {
-      if (!externalPopup) {
-        timer && clearInterval(timer);
-        return;
-      }
-      const isClosed = externalPopup.closed;
-
-      if (isClosed) {
-        if (document.cookie.includes('userID')) {
-          const cookieValue = document.cookie
-            .split('; ')
-            .find((row) => row.startsWith('userID='))
-            .split('=')[1];
-          localStorage.setItem('userID', cookieValue);
-          dispatch(isLoggedInUpdate(true));
-        }
-        setExternalPopup(null);
-        timer && clearInterval(timer);
-      }
-    }, 500);
-  }, [externalPopup]);
-
   const onLoginClick = () => {
-    const popup = window.open(`${configData.REACT_APP_SERVER_URL}spotify`, '_blank');
-    setExternalPopup(popup);
+    window.open(`${configData.REACT_APP_SERVER_URL}spotify`, '_blank');
   };
 
   const onLogoutClick = () => {
@@ -56,10 +27,12 @@ function SpotifyContainer({ playlistTitle, playlistDate, populatedTracks }) {
     dispatch(isLoggedInUpdate(false));
     fetch(`${configData.REACT_APP_SERVER_URL}logout`)
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => data);
   };
 
   const onPlaylistClick = () => {
+    setButtonText('Loading...');
+    setButtonDisabled(true);
     const songURIArray = [];
     populatedTracks.forEach((song) => {
       songURIArray.push(`spotify:track:${song.spotify_id}`);
@@ -82,7 +55,11 @@ function SpotifyContainer({ playlistTitle, playlistDate, populatedTracks }) {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        setButtonText('Success!');
+        setTimeout(() => {
+          setButtonDisabled(false);
+          setButtonText('Create Playlist');
+        }, 1000);
       })
       .catch((error) => {
         console.error('Error:', error);
@@ -116,8 +93,13 @@ function SpotifyContainer({ playlistTitle, playlistDate, populatedTracks }) {
         </button>
       ) : (
         <div className={styles.playlistAndLogout}>
-          <button type="button" className={styles.createPlaylistButton} onClick={onPlaylistClick}>
-            Create Playlist
+          <button
+            type="button"
+            className={styles.createPlaylistButton}
+            onClick={onPlaylistClick}
+            disabled={buttonDisabled}
+          >
+            {buttonText}
           </button>
           <button type="button" className={styles.spotifyLogoutButton} onClick={onLogoutClick}>
             <img src={SpotifyIconBlack} alt="black spotify icon" className={styles.spotifyIcon} />
