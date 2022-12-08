@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import configData from "../../../config.json";
+import configData from '../../../config.json';
 import PlaylistHeader from '../playlistHeader/playlistHeader';
 import TrackDisplay from '../trackDisplay/trackDisplay';
 
