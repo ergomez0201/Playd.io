@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
 import { useSelector } from 'react-redux';
 
@@ -8,15 +8,19 @@ import MainContainer from '../../components/mainContainer/mainContainer';
 import './music.styles.scss';
 
 function Music() {
+  const [fullTrackList, setFullTrackList] = useState(null);
   const isShowDisplayVisible = useSelector((state) => state.display.isShowDisplayVisible);
   const isMobileOrTablet = useMediaQuery({ query: '(max-width: 768px)' });
 
   let containerToRender;
+  console.log('this is the fullTrackList: ', fullTrackList);
 
   if (isShowDisplayVisible) {
-    containerToRender = <ShowDisplay />;
+    containerToRender = (
+      <ShowDisplay setFullTrackList={setFullTrackList} fullTrackList={fullTrackList} />
+    );
   } else {
-    containerToRender = <MainContainer />;
+    containerToRender = <MainContainer fullTrackList={fullTrackList} />;
   }
 
   return (
@@ -25,8 +29,8 @@ function Music() {
         containerToRender
       ) : (
         <>
-          <ShowDisplay />
-          <MainContainer />
+          <ShowDisplay setFullTrackList={setFullTrackList} fullTrackList={fullTrackList} />
+          <MainContainer fullTrackList={fullTrackList} />
         </>
       )}
     </main>
