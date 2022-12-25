@@ -45,7 +45,7 @@ router.get(
   '/search',
   spotifyAuthController.getClientCredentials,
   spotifyController.getSongUri,
-  (req, res) => res.status(200).json(res.locals)
+  (req, res) => res.status(200).json(res.locals.tracks)
 );
 
 // connecting user to spotify

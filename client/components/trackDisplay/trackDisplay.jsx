@@ -17,12 +17,11 @@ function TrackDisplay({ populatedTracks }) {
       className={`${styles.trackContainer} ${
         track.available && track.include ? null : styles.unavailable
       }`}
-      key={`div-${track.play_id}`}
+      key={`div-${track.playId}`}
     >
       <TrackContainer
-        key={track.play_id}
+        key={track.playId}
         index={i}
-        albumImage={track.albumImage}
         title={track.title}
         artist={track.artist}
         album={track.album}

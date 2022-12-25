@@ -9,10 +9,9 @@ function ProgramSelectForm({ data, setProgramDetails, programNames }) {
     const programName = selectValue.current.value;
     const programSongs = filterAndMakeReadWriteCopy(programName, data);
 
-    const programTitle = programSongs[0].program_title;
-    const programStart = programSongs[0].program_start;
-    const programEnd = programSongs[0].program_end;
-    const { host } = programSongs[0];
+    console.log('programSongs: ', programSongs);
+
+    const { programTitle, programStart, programEnd, host } = programSongs[0];
 
     setProgramDetails({ programTitle, programStart, programEnd, host });
   };
@@ -20,7 +19,7 @@ function ProgramSelectForm({ data, setProgramDetails, programNames }) {
   return (
     <form>
       <label htmlFor="radio-shows">Program </label>
-      <select ref={selectValue} id="radio-shows" onChange={onProgramChange}>
+      <select ref={selectValue} id="radio-shows" onChange={onProgramChange} disabled={!data}>
         <option value="" hidden>
           Choose a program
         </option>

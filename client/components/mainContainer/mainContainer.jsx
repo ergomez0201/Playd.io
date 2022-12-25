@@ -21,7 +21,7 @@ function MainContainer() {
 
   useEffect(() => {
     if (populatedTracks) {
-      const programTitle = populatedTracks[0].program_title;
+      const { programTitle } = populatedTracks[0];
       dispatch(playlistTitleUpdate(programTitle));
       dispatch(spotifyPlaylistNameUpdate(`${programTitle} - ${playlistDate}`));
     }
@@ -70,7 +70,7 @@ async function checkLogin() {
   const userID = localStorage.getItem('userID');
   if (!userID) return false;
 
-  const res = await fetch(`${configData.REACT_APP_SERVER_URL}login?userID=${userID}`);
+  const res = await fetch(`${configData.REACT_APP_SERVER_URL}/login?userID=${userID}`);
   const data = await res.json();
   return data;
 }

@@ -14,11 +14,12 @@ import { dateToStringYMD } from '../utils/dateParser/dateParser';
 import styles from './dateSelector.styles.scss';
 
 function DateSelector(props) {
-  const { startDate, setStartDate, setFullTrackList } = props;
+  const { startDate, setStartDate, setFullTrackList, setProgramDetails } = props;
 
   const onDateChange = async (date) => {
     if (!date) return null;
 
+    setProgramDetails(null);
     const [year, month, day] = dateToStringYMD(date).split('/');
     const data = await getKCRW({
       year,

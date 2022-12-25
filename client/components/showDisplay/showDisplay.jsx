@@ -37,7 +37,7 @@ function ShowDisplay({ setFullTrackList, fullTrackList }) {
 
     if (environment === 'dev') {
       for (let i = 0; i < programSongs.length; i++) {
-        const available = !!programSongs[i].spotify_id;
+        const available = !!programSongs[i].spotifyId;
         console.log('available after promise all: ', available);
         programSongs[i].available = available;
         programSongs[i].include = available;
@@ -49,7 +49,7 @@ function ShowDisplay({ setFullTrackList, fullTrackList }) {
       const missingDataArr = fetchMissingIds(programSongs);
       Promise.all(missingDataArr).then(() => {
         for (let i = 0; i < programSongs.length; i++) {
-          const available = !!programSongs[i].spotify_id;
+          const available = !!programSongs[i].spotifyId;
           programSongs[i].available = available;
           programSongs[i].include = available;
         }
@@ -80,6 +80,7 @@ function ShowDisplay({ setFullTrackList, fullTrackList }) {
         setStartDate={setStartDate}
         startDate={startDate}
         setFullTrackList={setFullTrackList}
+        setProgramDetails={setProgramDetails}
       />
       {fullTrackList && (
         <ProgramSelectForm
@@ -111,21 +112,17 @@ function ShowDisplay({ setFullTrackList, fullTrackList }) {
 function fetchMissingIds(programSongs) {
   const fetches = [];
   for (let i = 0; i < programSongs.length; i++) {
-    if (programSongs[i].spotify_id === null) {
+    if (!programSongs[i].spotifyId) {
       fetches.push(
         fetch(
-          `${configData.REACT_APP_SERVER_URL}search?title=${programSongs[i].title}&artist=${programSongs[i].artist}`
+          `${configData.REACT_APP_SERVER_URL}/search?title=${programSongs[i].title}&artist=${programSongs[i].artist}`
         )
           .then((res) => res.json())
-          .then((url) => {
-            const { spotifyUri, albumImage, albumImageLarge } = url;
-            if (spotifyUri) {
-              const uriString = spotifyUri.split(':')[2];
-              programSongs[i].spotify_id = uriString;
-            }
-            if (albumImage && albumImageLarge) {
-              programSongs[i].albumImage = albumImage;
-              programSongs[i].albumImageLarge = albumImageLarge;
+          .then((trackInfo) => {
+            console.log('data back from spotify: ', trackInfo);
+            if (trackInfo.length) {
+              programSongs[i].spotifyId = trackInfo[0].uri.split(':')[2];
+              programSongs[i].spotifyPreview = trackInfo[0].preview_url;
             }
           })
           .catch((err) =>
