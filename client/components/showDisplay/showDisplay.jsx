@@ -5,35 +5,33 @@ import { populateTracks, setLoadMoreTracks } from '../../store/reducers/tracksRe
 
 import DateSelector from '../dateSelector/dateSelector';
 import ProgramDetailsDisplay from '../programDetailsDisplay/programDetailsDisplay';
-import filterAndMakeReadWriteCopy from '../utils/dataCopy/filterAndMakeReadWriteCopy';
-import monthMapper from '../utils/dateParser/monthMapper';
+import { monthMapper } from '../utils/dateParser/monthMapper';
+import { fetchMissingIds } from '../utils/api/api';
 
 import styles from './showDisplay.styles.scss';
 import ProgramSelectForm from '../programSelectForm/programSelectForm';
-import configData from '../../../config.json';
 
-function ShowDisplay({ setFullTrackList, fullTrackList }) {
+function ShowDisplay(props) {
+  const {
+    setFullTrackList,
+    fullTrackList,
+    currentTrackList,
+    setSpotifyTrackList,
+    setCurrentTrackList,
+    startDate,
+    setStartDate,
+    programDetails,
+    setProgramDetails,
+  } = props;
   // temporary environment variable for development
   const environment = 'prod';
 
-  /*
-    local state:
-      startDate used to set date for DatePicker
-      programDetails passed as a prop to programDetailsDisplay
-      skip assures that the fetch for tracks doesn't happen until a date has been chosen
-  */
-  const [startDate, setStartDate] = useState(null);
   const [buttonText, setButtonText] = useState('Search');
-  const [programDetails, setProgramDetails] = useState(null);
 
   const dispatch = useDispatch();
 
   function onProgramSelect() {
-    const [dayOfWeek, month, day, year] = startDate.toString().split(' ');
-    dispatch(dateUpdate(`${monthMapper[month]} ${day}, ${year}`));
-
-    const programName = programDetails.programTitle;
-    const programSongs = filterAndMakeReadWriteCopy(programName, fullTrackList);
+    const programSongs = [...currentTrackList];
 
     if (environment === 'dev') {
       for (let i = 0; i < programSongs.length; i++) {
@@ -42,7 +40,10 @@ function ShowDisplay({ setFullTrackList, fullTrackList }) {
         programSongs[i].available = available;
         programSongs[i].include = available;
       }
-      dispatch(populateTracks(programSongs));
+      setCurrentTrackList(programSongs);
+      setSpotifyTrackList(programSongs);
+      dispatch(isShowDisplayVisibleUpdate(false));
+      setButtonText('Search');
     } else {
       // there are a lot of tracks in the KCRW api that don't have an existing spotify id -
       // make an initial request to spotify api to see if the songs are available
@@ -53,7 +54,8 @@ function ShowDisplay({ setFullTrackList, fullTrackList }) {
           programSongs[i].available = available;
           programSongs[i].include = available;
         }
-        dispatch(populateTracks(programSongs));
+        setCurrentTrackList(programSongs);
+        setSpotifyTrackList(programSongs);
         dispatch(isShowDisplayVisibleUpdate(false));
         setButtonText('Search');
       });
@@ -84,7 +86,8 @@ function ShowDisplay({ setFullTrackList, fullTrackList }) {
       />
       {fullTrackList && (
         <ProgramSelectForm
-          data={fullTrackList}
+          setCurrentTrackList={setCurrentTrackList}
+          fullTrackList={fullTrackList}
           setProgramDetails={setProgramDetails}
           programNames={programNames}
         />
@@ -107,35 +110,6 @@ function ShowDisplay({ setFullTrackList, fullTrackList }) {
       )}
     </div>
   );
-}
-
-function fetchMissingIds(programSongs) {
-  const fetches = [];
-  for (let i = 0; i < programSongs.length; i++) {
-    if (!programSongs[i].spotifyId) {
-      fetches.push(
-        fetch(
-          `${configData.REACT_APP_SERVER_URL}/search?title=${programSongs[i].title}&artist=${programSongs[i].artist}`
-        )
-          .then((res) => res.json())
-          .then((trackInfo) => {
-            console.log('data back from spotify: ', trackInfo);
-            if (trackInfo.length) {
-              programSongs[i].spotifyId = trackInfo[0].uri.split(':')[2];
-              programSongs[i].spotifyPreview = trackInfo[0].preview_url;
-            }
-          })
-          .catch((err) =>
-            console.log(
-              'there was an error in requesting track info from spotify API. Message: ',
-              err
-            )
-          )
-      );
-    }
-  }
-
-  return fetches;
 }
 
 export default ShowDisplay;

@@ -1,31 +1,27 @@
 import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import configData from '../../../config.json';
 import PlaylistHeader from '../playlistHeader/playlistHeader';
 import TrackDisplay from '../trackDisplay/trackDisplay';
 
-import {
-  playlistTitleUpdate,
-  spotifyPlaylistNameUpdate,
-  isLoggedInUpdate,
-} from '../../store/reducers/displayReducer';
+import { isLoggedInUpdate } from '../../store/reducers/displayReducer';
 
 import styles from './mainContainer.styles.scss';
+import { monthMapperNumber } from '../utils/dateParser/monthMapper';
 
-function MainContainer() {
+function MainContainer({ spotifyTrackList }) {
   const dispatch = useDispatch();
-  const populatedTracks = useSelector((state) => state.tracks.tracks);
-  const playlistTitle = useSelector((state) => state.display.playlistTitle);
-  const playlistDate = useSelector((state) => state.display.date);
 
-  useEffect(() => {
-    if (populatedTracks) {
-      const { programTitle } = populatedTracks[0];
-      dispatch(playlistTitleUpdate(programTitle));
-      dispatch(spotifyPlaylistNameUpdate(`${programTitle} - ${playlistDate}`));
-    }
-  }, [populatedTracks, playlistTitle]);
+  let playlistTitle;
+  let playlistDate;
+
+  if (spotifyTrackList) {
+    playlistTitle = spotifyTrackList[0].programTitle;
+    const [year, month, day] = spotifyTrackList[0].date.split('-');
+    playlistDate = `${monthMapperNumber[month]} ${day}, ${year}`;
+    console.log('this is the playlistDate: ', playlistDate);
+  }
 
   useEffect(() => {
     const checkAuth = async () => {
@@ -52,14 +48,14 @@ function MainContainer() {
 
   return (
     <div className={styles.mainContainer}>
-      {populatedTracks && playlistTitle && playlistDate && (
+      {spotifyTrackList && playlistTitle && playlistDate && (
         <>
           <PlaylistHeader
             playlistTitle={playlistTitle}
             playlistDate={playlistDate}
-            populatedTracks={populatedTracks}
+            spotifyTrackList={spotifyTrackList}
           />
-          <TrackDisplay populatedTracks={populatedTracks} />
+          <TrackDisplay spotifyTrackList={spotifyTrackList} />
         </>
       )}
     </div>

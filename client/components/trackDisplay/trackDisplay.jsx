@@ -7,12 +7,12 @@ import TrackContainer from '../trackContainer/trackContainer';
 
 import styles from './trackDisplay.styles.scss';
 
-function TrackDisplay({ populatedTracks }) {
+function TrackDisplay({ spotifyTrackList }) {
   const loadMoreTracks = useSelector((state) => state.tracks.loadMoreTracks);
 
   const dispatch = useDispatch();
 
-  const trackDisplayData = populatedTracks.map((track, i) => (
+  const trackDisplayData = spotifyTrackList.map((track, i) => (
     <div
       className={`${styles.trackContainer} ${
         track.available && track.include ? null : styles.unavailable
@@ -59,7 +59,7 @@ function TrackDisplay({ populatedTracks }) {
 }
 
 TrackDisplay.propTypes = {
-  populatedTracks: PropTypes.arrayOf(PropTypes.object).isRequired,
+  spotifyTrackList: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default TrackDisplay;

@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import { getMonth, getYear } from 'date-fns';
 import range from 'lodash/range';
-import getKCRW from '../utils/api/api';
+import { getKCRW } from '../utils/api/api';
 import { dateToStringYMD } from '../utils/dateParser/dateParser';
 
 // import action creators
@@ -19,6 +19,7 @@ function DateSelector(props) {
   const onDateChange = async (date) => {
     if (!date) return null;
 
+    setFullTrackList(null);
     setProgramDetails(null);
     const [year, month, day] = dateToStringYMD(date).split('/');
     const data = await getKCRW({

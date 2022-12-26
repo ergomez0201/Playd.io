@@ -9,19 +9,35 @@ import './music.styles.scss';
 
 function Music() {
   const [fullTrackList, setFullTrackList] = useState(null);
+  const [currentTrackList, setCurrentTrackList] = useState(null);
+  const [spotifyTrackList, setSpotifyTrackList] = useState(null);
+  const [startDate, setStartDate] = useState(null);
+  const [programDetails, setProgramDetails] = useState(null);
+  // const [isShowDisplayVisible, setShowDisplayVisible] = useState(false);
   const isShowDisplayVisible = useSelector((state) => state.display.isShowDisplayVisible);
   const isMobileOrTablet = useMediaQuery({ query: '(max-width: 768px)' });
 
-  let containerToRender;
-  console.log('this is the fullTrackList: ', fullTrackList);
+  console.log('currentTrackList: ', currentTrackList);
 
-  if (isShowDisplayVisible) {
-    containerToRender = (
-      <ShowDisplay setFullTrackList={setFullTrackList} fullTrackList={fullTrackList} />
-    );
-  } else {
-    containerToRender = <MainContainer fullTrackList={fullTrackList} />;
-  }
+  const showDisplayComponent = (
+    <ShowDisplay
+      setFullTrackList={setFullTrackList}
+      fullTrackList={fullTrackList}
+      currentTrackList={currentTrackList}
+      setCurrentTrackList={setCurrentTrackList}
+      setSpotifyTrackList={setSpotifyTrackList}
+      startDate={startDate}
+      setStartDate={setStartDate}
+      programDetails={programDetails}
+      setProgramDetails={setProgramDetails}
+    />
+  );
+
+  const mainContainerComponent = <MainContainer spotifyTrackList={spotifyTrackList} />;
+  const containerToRender = isShowDisplayVisible
+    ? showDisplayComponent
+    : currentTrackList && mainContainerComponent;
+  console.log('this is the fullTrackList: ', fullTrackList);
 
   return (
     <main>
@@ -29,8 +45,8 @@ function Music() {
         containerToRender
       ) : (
         <>
-          <ShowDisplay setFullTrackList={setFullTrackList} fullTrackList={fullTrackList} />
-          <MainContainer fullTrackList={fullTrackList} />
+          {showDisplayComponent}
+          {mainContainerComponent}
         </>
       )}
     </main>

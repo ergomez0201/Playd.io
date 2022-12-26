@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 
 import convert24HourTime from '../utils/dateParser/convert24HourTime';
 import dayOfWeekMapper from '../utils/dateParser/dayOfWeekMapper';
-import monthMapper from '../utils/dateParser/monthMapper';
+import { monthMapper } from '../utils/dateParser/monthMapper';
 
 import styles from './programDetailsDisplay.styles.scss';
 

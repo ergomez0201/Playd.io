@@ -10,16 +10,18 @@ import SpotifyIconBlack from '../../../assets/images/Spotify_Icon_RGB_Black.png'
 import styles from './spotifyContainer.styles.scss';
 import configData from '../../../config.json';
 
-function SpotifyContainer({ playlistTitle, playlistDate, populatedTracks }) {
+function SpotifyContainer({ playlistTitle, playlistDate, spotifyTrackList }) {
   const [buttonText, setButtonText] = useState('Create Playlist');
   const [buttonDisabled, setButtonDisabled] = useState(false);
   const dispatch = useDispatch();
 
-  const spotifyPlaylistName = useSelector((state) => state.display.spotifyPlaylistName);
+  // TODO: Spotifyplaylist name needs to be moved to parent state so that you can invoke onchange when user types into form
+
+  const spotifyPlaylistName = `${playlistTitle} - ${playlistDate}`;
   const isLoggedIn = useSelector((state) => state.display.isLoggedIn);
 
   const onLoginClick = () => {
-    window.open(`${configData.REACT_APP_SERVER_URL}spotify`, '_blank');
+    window.open(`${configData.REACT_APP_SERVER_URL}/spotify`, '_blank');
   };
 
   const onLogoutClick = () => {
@@ -34,8 +36,8 @@ function SpotifyContainer({ playlistTitle, playlistDate, populatedTracks }) {
     setButtonText('Loading...');
     setButtonDisabled(true);
     const songURIArray = [];
-    populatedTracks.forEach((song) => {
-      songURIArray.push(`spotify:track:${song.spotify_id}`);
+    spotifyTrackList.forEach((song) => {
+      songURIArray.push(`spotify:track:${song.spotifyId}`);
     });
 
     const filteredURIArray = songURIArray.filter((el) => el !== 'spotify:track:null');
@@ -46,7 +48,7 @@ function SpotifyContainer({ playlistTitle, playlistDate, populatedTracks }) {
       showDate: playlistDate,
     };
 
-    fetch(`${configData.REACT_APP_SERVER_URL}playlist`, {
+    fetch(`${configData.REACT_APP_SERVER_URL}/playlist`, {
       method: 'POST',
       headers: {
         'Content-Type': 'Application/JSON',
