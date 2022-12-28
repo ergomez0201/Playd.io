@@ -6,6 +6,7 @@ import SpotifyIconBlack from '../../../assets/images/Spotify_Icon_RGB_Black.png'
 
 import styles from './spotifyContainer.styles.scss';
 import configData from '../../../config.json';
+import TrackAvailability from '../trackAvailability/trackAvailability';
 
 function SpotifyContainer({
   playlistTitle,
@@ -88,6 +89,7 @@ function SpotifyContainer({
         />
         Playlist Name
       </label>
+      <TrackAvailability spotifyTrackList={spotifyTrackList} />
       {!isLoggedIn ? (
         <button type="button" onClick={onLoginClick} className={styles.spotifyLoginButton}>
           <img src={SpotifyIconWhite} alt="white spotify icon" className={styles.spotifyIcon} />

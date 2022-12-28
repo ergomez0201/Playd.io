@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import ReactHowler from 'react-howler';
 
 import TrackContainer from '../trackContainer/trackContainer';
 
@@ -11,23 +12,29 @@ function TrackDisplay({
   setLoadMoreTracks,
   loadMoreTracks,
 }) {
+  const [activeSong, setActiveSong] = useState(['']);
+  const [howlerPlay, setHowlerPlay] = useState(false);
+
   console.log('spotifyTrackList: ', spotifyTrackList);
+  console.log('activeSong: ', activeSong);
+  console.log('howlerPlay: ', howlerPlay);
 
   const trackDisplayData = spotifyTrackList.map((track, i) => (
-    <div className={`${track.available ? null : styles.unavailable}`} key={`div-${track.playId}`}>
-      <TrackContainer
-        key={track.playId}
-        index={i}
-        title={track.title}
-        artist={track.artist}
-        album={track.album}
-        available={track.available}
-        include={track.include}
-        spotifyId={track.spotifyId}
-        spotifyPreview={track.spotifyPreview}
-        setSpotifyTracklist={setSpotifyTracklist}
-      />
-    </div>
+    <TrackContainer
+      key={track.playId}
+      index={i}
+      title={track.title}
+      artist={track.artist}
+      album={track.album}
+      available={track.available}
+      include={track.include}
+      spotifyId={track.spotifyId}
+      spotifyPreview={track.spotifyPreview}
+      spotifyTrackList={spotifyTrackList}
+      setSpotifyTracklist={setSpotifyTracklist}
+      setActiveSong={setActiveSong}
+      setHowlerPlay={setHowlerPlay}
+    />
   ));
 
   const initialDisplayData = trackDisplayData.slice(0, 11);
@@ -54,6 +61,7 @@ function TrackDisplay({
         </button>
       )}
       {loadMoreTracks && requestMoreDisplayData}
+      <ReactHowler playing={howlerPlay} src={activeSong} format={['mp3']} />
     </>
   );
 }

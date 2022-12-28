@@ -18,28 +18,48 @@ function TrackContainer({
   include,
   spotifyId,
   spotifyPreview,
+  spotifyTrackList,
   setSpotifyTracklist,
+  setActiveSong,
+  setHowlerPlay,
 }) {
-  const handleIncludeClick = (e, index) => {
-    console.log('event: ', e);
-    console.log('index: ', index);
+  const handleIncludeClick = (e, idx) => {
+    const trackListCopy = [...spotifyTrackList];
+    const trackObject = { ...trackListCopy[idx], include: !include };
+    trackListCopy[idx] = trackObject;
+    setSpotifyTracklist(trackListCopy);
+  };
+
+  const handlePreviewClick = () => {
+    console.log('spotifyPreview: ', spotifyPreview);
+    setActiveSong([spotifyPreview]);
+    setHowlerPlay(true);
   };
 
   return (
-    <button
-      type="button"
-      disabled={!available}
-      className={styles.trackContainer}
-      onClick={(e) => handleIncludeClick(e, index)}
-    >
-      <TrackNumber index={index + 1} />
-      <div className={styles.titleAndArtist}>
-        <TrackTitle title={title} />
-        <TrackArtist artist={artist} />
-      </div>
-      <TrackAlbum album={album} />
-      <TrackPreview available={available} />
-    </button>
+    <div className={`${styles.trackContainer} ${available && !include ? styles.exclude : null}`}>
+      <button
+        type="button"
+        disabled={!available}
+        className={styles.buttonContainer}
+        onClick={(e) => handleIncludeClick(e, index)}
+      >
+        <TrackNumber index={index + 1} />
+        <div className={styles.titleAndArtist}>
+          <TrackTitle title={title} />
+          <TrackArtist artist={artist} />
+        </div>
+        <TrackAlbum album={album} />
+      </button>
+      <button
+        type="button"
+        disabled={!available}
+        className={styles.previewButton}
+        onClick={() => handlePreviewClick()}
+      >
+        <TrackPreview available={available} spotifyPreview={spotifyPreview} />
+      </button>
+    </div>
   );
 }
 
