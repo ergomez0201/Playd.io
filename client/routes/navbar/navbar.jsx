@@ -8,9 +8,9 @@ function Navbar() {
   return (
     <>
       <nav>
-        <Link to="/">
-          <img src={PlaydioLogo} alt="playd.io logo" />
-        </Link>
+        {/* <Link to="/"> */}
+        <img src={PlaydioLogo} alt="playd.io logo" />
+        {/* </Link> */}
       </nav>
       <Outlet />
     </>

@@ -5,14 +5,16 @@ import TrackContainer from '../trackContainer/trackContainer';
 
 import styles from './trackDisplay.styles.scss';
 
-function TrackDisplay({ spotifyTrackList, setLoadMoreTracks, loadMoreTracks }) {
+function TrackDisplay({
+  spotifyTrackList,
+  setSpotifyTracklist,
+  setLoadMoreTracks,
+  loadMoreTracks,
+}) {
+  console.log('spotifyTrackList: ', spotifyTrackList);
+
   const trackDisplayData = spotifyTrackList.map((track, i) => (
-    <div
-      className={`${styles.trackContainer} ${
-        track.available && track.include ? null : styles.unavailable
-      }`}
-      key={`div-${track.playId}`}
-    >
+    <div className={`${track.available ? null : styles.unavailable}`} key={`div-${track.playId}`}>
       <TrackContainer
         key={track.playId}
         index={i}
@@ -21,6 +23,9 @@ function TrackDisplay({ spotifyTrackList, setLoadMoreTracks, loadMoreTracks }) {
         album={track.album}
         available={track.available}
         include={track.include}
+        spotifyId={track.spotifyId}
+        spotifyPreview={track.spotifyPreview}
+        setSpotifyTracklist={setSpotifyTracklist}
       />
     </div>
   ));
@@ -34,6 +39,7 @@ function TrackDisplay({ spotifyTrackList, setLoadMoreTracks, loadMoreTracks }) {
         <p>No.</p>
         <p>Title | Artists</p>
         <p>Album</p>
+        <p>Preview</p>
       </div>
       {initialDisplayData}
       {!loadMoreTracks && (

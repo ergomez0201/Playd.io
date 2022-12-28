@@ -38,15 +38,16 @@ function Music() {
   const mainContainerComponent = (
     <MainContainer
       spotifyTrackList={spotifyTrackList}
+      setSpotifyTracklist={setSpotifyTrackList}
       setShowDisplayVisible={setShowDisplayVisible}
       setLoadMoreTracks={setLoadMoreTracks}
       loadMoreTracks={loadMoreTracks}
+      isMobileOrTablet={isMobileOrTablet}
     />
   );
   const containerToRender = isShowDisplayVisible
     ? showDisplayComponent
     : currentTrackList && mainContainerComponent;
-  console.log('this is the fullTrackList: ', fullTrackList);
 
   return (
     <main>

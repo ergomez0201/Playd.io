@@ -7,17 +7,39 @@ import TrackAlbum from '../trackAlbum/trackAlbum';
 import TrackArtist from '../trackArtist/trackArtist';
 
 import styles from './trackContainer.styles.scss';
+import TrackPreview from '../trackPreview/trackPreview';
 
-function TrackContainer({ index, title, album, artist, available, include }) {
+function TrackContainer({
+  index,
+  title,
+  album,
+  artist,
+  available,
+  include,
+  spotifyId,
+  spotifyPreview,
+  setSpotifyTracklist,
+}) {
+  const handleIncludeClick = (e, index) => {
+    console.log('event: ', e);
+    console.log('index: ', index);
+  };
+
   return (
-    <>
+    <button
+      type="button"
+      disabled={!available}
+      className={styles.trackContainer}
+      onClick={(e) => handleIncludeClick(e, index)}
+    >
       <TrackNumber index={index + 1} />
       <div className={styles.titleAndArtist}>
         <TrackTitle title={title} />
         <TrackArtist artist={artist} />
       </div>
       <TrackAlbum album={album} />
-    </>
+      <TrackPreview available={available} />
+    </button>
   );
 }
 
