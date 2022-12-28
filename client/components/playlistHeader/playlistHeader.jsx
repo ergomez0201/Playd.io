@@ -4,7 +4,13 @@ import SpotifyContainer from '../spotifyContainer/spotifyContainer';
 
 import './playlistHeader.styles.scss';
 
-function PlaylistHeader({ playlistTitle, playlistDate, spotifyTrackList }) {
+function PlaylistHeader({
+  playlistTitle,
+  playlistDate,
+  spotifyTrackList,
+  isLoggedIn,
+  setIsLoggedIn,
+}) {
   return (
     <>
       <header>
@@ -16,6 +22,8 @@ function PlaylistHeader({ playlistTitle, playlistDate, spotifyTrackList }) {
           playlistTitle={playlistTitle}
           playlistDate={playlistDate}
           spotifyTrackList={spotifyTrackList}
+          isLoggedIn={isLoggedIn}
+          setIsLoggedIn={setIsLoggedIn}
         />
       )}
     </>

@@ -1,17 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
-import { setLoadMoreTracks } from '../../store/reducers/tracksReducer';
 
 import TrackContainer from '../trackContainer/trackContainer';
 
 import styles from './trackDisplay.styles.scss';
 
-function TrackDisplay({ spotifyTrackList }) {
-  const loadMoreTracks = useSelector((state) => state.tracks.loadMoreTracks);
-
-  const dispatch = useDispatch();
-
+function TrackDisplay({ spotifyTrackList, setLoadMoreTracks, loadMoreTracks }) {
   const trackDisplayData = spotifyTrackList.map((track, i) => (
     <div
       className={`${styles.trackContainer} ${
@@ -47,7 +41,7 @@ function TrackDisplay({ spotifyTrackList }) {
           className={styles.loadMoreButton}
           type="button"
           onClick={() => {
-            dispatch(setLoadMoreTracks(true));
+            setLoadMoreTracks(true);
           }}
         >
           LOAD MORE

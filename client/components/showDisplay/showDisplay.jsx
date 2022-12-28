@@ -1,11 +1,7 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { isShowDisplayVisibleUpdate, dateUpdate } from '../../store/reducers/displayReducer';
-import { populateTracks, setLoadMoreTracks } from '../../store/reducers/tracksReducer';
 
 import DateSelector from '../dateSelector/dateSelector';
 import ProgramDetailsDisplay from '../programDetailsDisplay/programDetailsDisplay';
-import { monthMapper } from '../utils/dateParser/monthMapper';
 import { fetchMissingIds } from '../utils/api/api';
 
 import styles from './showDisplay.styles.scss';
@@ -22,15 +18,16 @@ function ShowDisplay(props) {
     setStartDate,
     programDetails,
     setProgramDetails,
+    setShowDisplayVisible,
+    setLoadMoreTracks,
   } = props;
   // temporary environment variable for development
   const environment = 'prod';
 
   const [buttonText, setButtonText] = useState('Search');
 
-  const dispatch = useDispatch();
-
   function onProgramSelect() {
+    setButtonText('Loading...');
     const programSongs = [...currentTrackList];
 
     if (environment === 'dev') {
@@ -42,8 +39,9 @@ function ShowDisplay(props) {
       }
       setCurrentTrackList(programSongs);
       setSpotifyTrackList(programSongs);
-      dispatch(isShowDisplayVisibleUpdate(false));
+      setShowDisplayVisible(false);
       setButtonText('Search');
+      setLoadMoreTracks(false);
     } else {
       // there are a lot of tracks in the KCRW api that don't have an existing spotify id -
       // make an initial request to spotify api to see if the songs are available
@@ -56,8 +54,9 @@ function ShowDisplay(props) {
         }
         setCurrentTrackList(programSongs);
         setSpotifyTrackList(programSongs);
-        dispatch(isShowDisplayVisibleUpdate(false));
+        setShowDisplayVisible(false);
         setButtonText('Search');
+        setLoadMoreTracks(false);
       });
     }
   }
@@ -95,15 +94,7 @@ function ShowDisplay(props) {
       {programDetails && (
         <>
           <ProgramDetailsDisplay programDetails={programDetails} date={startDate} />
-          <button
-            className={styles.showDisplayButton}
-            type="button"
-            onClick={() => {
-              setButtonText('Loading...');
-              onProgramSelect();
-              dispatch(setLoadMoreTracks(false));
-            }}
-          >
+          <button className={styles.showDisplayButton} type="button" onClick={onProgramSelect}>
             {buttonText}
           </button>
         </>

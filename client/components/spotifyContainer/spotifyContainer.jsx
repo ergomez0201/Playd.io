@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { isLoggedInUpdate, spotifyPlaylistNameUpdate } from '../../store/reducers/displayReducer';
 
 import SpotifyLogo from '../../../assets/images/Spotify_Logo_RGB_Green.png';
 import SpotifyIconWhite from '../../../assets/images/Spotify_Icon_RGB_White.png';
@@ -10,15 +7,18 @@ import SpotifyIconBlack from '../../../assets/images/Spotify_Icon_RGB_Black.png'
 import styles from './spotifyContainer.styles.scss';
 import configData from '../../../config.json';
 
-function SpotifyContainer({ playlistTitle, playlistDate, spotifyTrackList }) {
+function SpotifyContainer({
+  playlistTitle,
+  playlistDate,
+  spotifyTrackList,
+  isLoggedIn,
+  setIsLoggedIn,
+}) {
   const [buttonText, setButtonText] = useState('Create Playlist');
   const [buttonDisabled, setButtonDisabled] = useState(false);
-  const dispatch = useDispatch();
-
-  // TODO: Spotifyplaylist name needs to be moved to parent state so that you can invoke onchange when user types into form
-
-  const spotifyPlaylistName = `${playlistTitle} - ${playlistDate}`;
-  const isLoggedIn = useSelector((state) => state.display.isLoggedIn);
+  const [spotifyPlaylistName, setSpotifyPlaylistName] = useState(
+    `${playlistTitle} - ${playlistDate}`
+  );
 
   const onLoginClick = () => {
     window.open(`${configData.REACT_APP_SERVER_URL}/spotify`, '_blank');
@@ -26,8 +26,8 @@ function SpotifyContainer({ playlistTitle, playlistDate, spotifyTrackList }) {
 
   const onLogoutClick = () => {
     localStorage.clear();
-    dispatch(isLoggedInUpdate(false));
-    fetch(`${configData.REACT_APP_SERVER_URL}logout`)
+    setIsLoggedIn(false);
+    fetch(`${configData.REACT_APP_SERVER_URL}/logout`)
       .then((res) => res.json())
       .then((data) => data);
   };
@@ -83,7 +83,7 @@ function SpotifyContainer({ playlistTitle, playlistDate, spotifyTrackList }) {
           name="playlistTitle"
           value={spotifyPlaylistName}
           onChange={(e) => {
-            dispatch(spotifyPlaylistNameUpdate(e.target.value));
+            setSpotifyPlaylistName(e.target.value);
           }}
         />
         Playlist Name
