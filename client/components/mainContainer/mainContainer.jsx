@@ -19,8 +19,6 @@ function MainContainer({
 }) {
   const [isLoggedIn, setIsLoggedIn] = useAuth();
 
-  console.log('isLoggedIn from custom hook: ', isLoggedIn);
-
   let playlistTitle;
   let playlistDate;
 

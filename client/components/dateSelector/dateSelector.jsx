@@ -27,7 +27,6 @@ function DateSelector(props) {
       month,
       day,
     });
-    console.log('this is the data that comes back: ', data);
     if (data.isError) {
       // TODO: logic to handle errors
     } else {

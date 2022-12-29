@@ -33,7 +33,6 @@ function ShowDisplay(props) {
     if (environment === 'dev') {
       for (let i = 0; i < programSongs.length; i++) {
         const available = !!programSongs[i].spotifyId;
-        console.log('available after promise all: ', available);
         programSongs[i].available = available;
         programSongs[i].include = available;
       }

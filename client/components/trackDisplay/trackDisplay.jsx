@@ -15,10 +15,6 @@ function TrackDisplay({
   const [activeSong, setActiveSong] = useState(['']);
   const [howlerPlay, setHowlerPlay] = useState(false);
 
-  console.log('spotifyTrackList: ', spotifyTrackList);
-  console.log('activeSong: ', activeSong);
-  console.log('howlerPlay: ', howlerPlay);
-
   const trackDisplayData = spotifyTrackList.map((track, i) => (
     <TrackContainer
       key={track.playId}
