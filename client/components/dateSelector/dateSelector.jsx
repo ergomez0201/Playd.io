@@ -5,6 +5,8 @@ import PropTypes from 'prop-types';
 import DatePicker from 'react-datepicker';
 import { getMonth, getYear } from 'date-fns';
 import range from 'lodash/range';
+import { getKCRW } from '../utils/api/api';
+import { dateToStringYMD } from '../utils/dateParser/dateParser';
 
 // import action creators
 
@@ -12,7 +14,31 @@ import range from 'lodash/range';
 import styles from './dateSelector.styles.scss';
 
 function DateSelector(props) {
-  const { startDate, setStartDate, setSkip } = props;
+  const { startDate, setStartDate, setFullTrackList, setProgramDetails } = props;
+
+  const onDateChange = async (date) => {
+    if (!date) return null;
+
+    setFullTrackList(null);
+    setProgramDetails(null);
+    const [year, month, day] = dateToStringYMD(date).split('/');
+    const data = await getKCRW({
+      year,
+      month,
+      day,
+    });
+    console.log('this is the data that comes back: ', data);
+    if (data.isError) {
+      // TODO: logic to handle errors
+    } else {
+      setFullTrackList(data.data);
+    }
+    setStartDate(date);
+  };
+
+  const handleDateChangeRaw = (e) => {
+    e.preventDefault();
+  };
 
   // Datepicker logic
   const years = range(1994, getYear(new Date()) + 1, 1);
@@ -80,9 +106,7 @@ function DateSelector(props) {
         )}
         selected={startDate}
         onChange={(date) => {
-          if (!date) return null;
-          setSkip(false);
-          return setStartDate(date);
+          onDateChange(date);
         }}
         minDate={new Date('November 2, 1994')}
         maxDate={Date.now() - 24 * 60 * 60 * 1000}
@@ -90,6 +114,7 @@ function DateSelector(props) {
         showDisabledMonthNavigation
         placeholderText="  Select a date"
         strictParsing
+        onChangeRaw={(e) => handleDateChangeRaw(e)}
       />
     </div>
   );
@@ -98,7 +123,6 @@ function DateSelector(props) {
 DateSelector.propTypes = {
   startDate: PropTypes.instanceOf(Date),
   setStartDate: PropTypes.func.isRequired,
-  setSkip: PropTypes.func.isRequired,
 };
 
 DateSelector.defaultProps = {

@@ -14,14 +14,16 @@ spotifyController.getSongUri = (req, res, next) => {
       },
     })
     .then((response) => {
-      const trackArray = response.data.tracks.items;
-      if (trackArray.length === 0) {
-        res.locals.spotifyUri = null;
-        return next();
-      }
-      res.locals.albumImage = trackArray[0].album.images[1].url;
-      res.locals.albumImageLarge = trackArray[0].album.images[0].url;
-      res.locals.spotifyUri = trackArray[0].uri;
+      // TODO: Error check for too many requests status code
+      res.locals.tracks = response.data.tracks.items;
+      // if (trackArray.length === 0) {
+      //   res.locals.spotifyUri = null;
+      //   return next();
+      // }
+      // res.locals.albumImage = trackArray[0].album.images[1].url;
+      // res.locals.albumImageLarge = trackArray[0].album.images[0].url;
+      // res.locals.spotifyUri = trackArray[0].uri;
+      // res.locals.tracks = trackArray;
       return next();
     })
     .catch((err) => console.log(err));

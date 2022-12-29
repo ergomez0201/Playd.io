@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useMediaQuery } from 'react-responsive';
-import { useSelector } from 'react-redux';
 
 import ShowDisplay from '../../components/showDisplay/showDisplay';
 import MainContainer from '../../components/mainContainer/mainContainer';
@@ -8,16 +7,47 @@ import MainContainer from '../../components/mainContainer/mainContainer';
 import './music.styles.scss';
 
 function Music() {
-  const isShowDisplayVisible = useSelector((state) => state.display.isShowDisplayVisible);
+  const [fullTrackList, setFullTrackList] = useState(null);
+  const [currentTrackList, setCurrentTrackList] = useState(null);
+  const [spotifyTrackList, setSpotifyTrackList] = useState(null);
+  const [startDate, setStartDate] = useState(null);
+  const [programDetails, setProgramDetails] = useState(null);
+  const [isShowDisplayVisible, setShowDisplayVisible] = useState(true);
+  const [loadMoreTracks, setLoadMoreTracks] = useState(false);
+
   const isMobileOrTablet = useMediaQuery({ query: '(max-width: 768px)' });
 
-  let containerToRender;
+  console.log('currentTrackList: ', currentTrackList);
 
-  if (isShowDisplayVisible) {
-    containerToRender = <ShowDisplay />;
-  } else {
-    containerToRender = <MainContainer />;
-  }
+  const showDisplayComponent = (
+    <ShowDisplay
+      setFullTrackList={setFullTrackList}
+      fullTrackList={fullTrackList}
+      currentTrackList={currentTrackList}
+      setCurrentTrackList={setCurrentTrackList}
+      setSpotifyTrackList={setSpotifyTrackList}
+      startDate={startDate}
+      setStartDate={setStartDate}
+      programDetails={programDetails}
+      setProgramDetails={setProgramDetails}
+      setShowDisplayVisible={setShowDisplayVisible}
+      setLoadMoreTracks={setLoadMoreTracks}
+    />
+  );
+
+  const mainContainerComponent = (
+    <MainContainer
+      spotifyTrackList={spotifyTrackList}
+      setSpotifyTracklist={setSpotifyTrackList}
+      setShowDisplayVisible={setShowDisplayVisible}
+      setLoadMoreTracks={setLoadMoreTracks}
+      loadMoreTracks={loadMoreTracks}
+      isMobileOrTablet={isMobileOrTablet}
+    />
+  );
+  const containerToRender = isShowDisplayVisible
+    ? showDisplayComponent
+    : currentTrackList && mainContainerComponent;
 
   return (
     <main>
@@ -25,8 +55,8 @@ function Music() {
         containerToRender
       ) : (
         <>
-          <ShowDisplay />
-          <MainContainer />
+          {showDisplayComponent}
+          {mainContainerComponent}
         </>
       )}
     </main>

@@ -1,7 +1,4 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
-import { isLoggedInUpdate, spotifyPlaylistNameUpdate } from '../../store/reducers/displayReducer';
 
 import SpotifyLogo from '../../../assets/images/Spotify_Logo_RGB_Green.png';
 import SpotifyIconWhite from '../../../assets/images/Spotify_Icon_RGB_White.png';
@@ -9,23 +6,29 @@ import SpotifyIconBlack from '../../../assets/images/Spotify_Icon_RGB_Black.png'
 
 import styles from './spotifyContainer.styles.scss';
 import configData from '../../../config.json';
+import TrackAvailability from '../trackAvailability/trackAvailability';
 
-function SpotifyContainer({ playlistTitle, playlistDate, populatedTracks }) {
+function SpotifyContainer({
+  playlistTitle,
+  playlistDate,
+  spotifyTrackList,
+  isLoggedIn,
+  setIsLoggedIn,
+}) {
   const [buttonText, setButtonText] = useState('Create Playlist');
   const [buttonDisabled, setButtonDisabled] = useState(false);
-  const dispatch = useDispatch();
-
-  const spotifyPlaylistName = useSelector((state) => state.display.spotifyPlaylistName);
-  const isLoggedIn = useSelector((state) => state.display.isLoggedIn);
+  const [spotifyPlaylistName, setSpotifyPlaylistName] = useState(
+    `${playlistTitle} - ${playlistDate}`
+  );
 
   const onLoginClick = () => {
-    window.open(`${configData.REACT_APP_SERVER_URL}spotify`, '_blank');
+    window.open(`${configData.REACT_APP_SERVER_URL}/spotify`, '_blank');
   };
 
   const onLogoutClick = () => {
     localStorage.clear();
-    dispatch(isLoggedInUpdate(false));
-    fetch(`${configData.REACT_APP_SERVER_URL}logout`)
+    setIsLoggedIn(false);
+    fetch(`${configData.REACT_APP_SERVER_URL}/logout`)
       .then((res) => res.json())
       .then((data) => data);
   };
@@ -34,8 +37,9 @@ function SpotifyContainer({ playlistTitle, playlistDate, populatedTracks }) {
     setButtonText('Loading...');
     setButtonDisabled(true);
     const songURIArray = [];
-    populatedTracks.forEach((song) => {
-      songURIArray.push(`spotify:track:${song.spotify_id}`);
+    const filteredSpotifyTrackList = spotifyTrackList.filter((track) => track.include);
+    filteredSpotifyTrackList.forEach((song) => {
+      songURIArray.push(`spotify:track:${song.spotifyId}`);
     });
 
     const filteredURIArray = songURIArray.filter((el) => el !== 'spotify:track:null');
@@ -46,7 +50,7 @@ function SpotifyContainer({ playlistTitle, playlistDate, populatedTracks }) {
       showDate: playlistDate,
     };
 
-    fetch(`${configData.REACT_APP_SERVER_URL}playlist`, {
+    fetch(`${configData.REACT_APP_SERVER_URL}/playlist`, {
       method: 'POST',
       headers: {
         'Content-Type': 'Application/JSON',
@@ -81,11 +85,12 @@ function SpotifyContainer({ playlistTitle, playlistDate, populatedTracks }) {
           name="playlistTitle"
           value={spotifyPlaylistName}
           onChange={(e) => {
-            dispatch(spotifyPlaylistNameUpdate(e.target.value));
+            setSpotifyPlaylistName(e.target.value);
           }}
         />
         Playlist Name
       </label>
+      <TrackAvailability spotifyTrackList={spotifyTrackList} />
       {!isLoggedIn ? (
         <button type="button" onClick={onLoginClick} className={styles.spotifyLoginButton}>
           <img src={SpotifyIconWhite} alt="white spotify icon" className={styles.spotifyIcon} />
