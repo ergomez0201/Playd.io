@@ -17,8 +17,6 @@ function Music() {
 
   const isMobileOrTablet = useMediaQuery({ query: '(max-width: 768px)' });
 
-  console.log('currentTrackList: ', currentTrackList);
-
   const showDisplayComponent = (
     <ShowDisplay
       setFullTrackList={setFullTrackList}

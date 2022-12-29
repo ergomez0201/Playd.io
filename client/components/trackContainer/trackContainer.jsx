@@ -32,7 +32,6 @@ function TrackContainer({
   };
 
   const handlePreviewClick = () => {
-    console.log('spotifyPreview: ', spotifyPreview);
     if (activeSong[0] === spotifyPreview) {
       setActiveSong(['']);
       setHowlerPlay(false);

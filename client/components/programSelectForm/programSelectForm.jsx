@@ -14,8 +14,6 @@ function ProgramSelectForm({
     const programName = selectValue.current.value;
     const programSongs = filterAndMakeReadWriteCopy(programName, fullTrackList);
 
-    console.log('programSongs: ', programSongs);
-
     const { programTitle, programStart, programEnd, host } = programSongs[0];
 
     setCurrentTrackList(programSongs);
