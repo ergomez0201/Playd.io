@@ -92,10 +92,16 @@ function SpotifyContainer({
       </label>
       <TrackAvailability spotifyTrackList={spotifyTrackList} />
       {!isLoggedIn ? (
-        <button type="button" onClick={onLoginClick} className={styles.spotifyLoginButton}>
-          <img src={SpotifyIconWhite} alt="white spotify icon" className={styles.spotifyIcon} />
-          Login
-        </button>
+        <>
+          <button type="button" onClick={onLoginClick} className={styles.spotifyLoginButton}>
+            <img src={SpotifyIconWhite} alt="white spotify icon" className={styles.spotifyIcon} />
+            Login
+          </button>
+          <p className={styles.devMode}>
+            * THIS APP IS UNDER DEVELOPMENT.
+            <br /> CONTACT THE ADMIN IF LOGIN IS NOT WORKING.
+          </p>
+        </>
       ) : (
         <div className={styles.playlistAndLogout}>
           <button
