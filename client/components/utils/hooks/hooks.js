@@ -13,7 +13,6 @@ export default function useAuth() {
   const [isLoggedIn, setIsLoggedIn] = useState(null);
 
   const storageEvent = (event) => {
-    console.log('storage even fired: ', event.storageArea);
     if (!event.storageArea.userID) {
       setIsLoggedIn(false);
     } else {
