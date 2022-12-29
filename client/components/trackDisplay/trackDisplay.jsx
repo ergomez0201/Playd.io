@@ -32,6 +32,7 @@ function TrackDisplay({
       spotifyPreview={track.spotifyPreview}
       spotifyTrackList={spotifyTrackList}
       setSpotifyTracklist={setSpotifyTracklist}
+      activeSong={activeSong}
       setActiveSong={setActiveSong}
       setHowlerPlay={setHowlerPlay}
     />

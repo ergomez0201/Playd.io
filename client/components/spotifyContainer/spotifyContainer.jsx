@@ -37,7 +37,8 @@ function SpotifyContainer({
     setButtonText('Loading...');
     setButtonDisabled(true);
     const songURIArray = [];
-    spotifyTrackList.forEach((song) => {
+    const filteredSpotifyTrackList = spotifyTrackList.filter((track) => track.include);
+    filteredSpotifyTrackList.forEach((song) => {
       songURIArray.push(`spotify:track:${song.spotifyId}`);
     });
 

@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 
 import TrackNumber from '../trackNumber/trackNumber';
@@ -20,6 +20,7 @@ function TrackContainer({
   spotifyPreview,
   spotifyTrackList,
   setSpotifyTracklist,
+  activeSong,
   setActiveSong,
   setHowlerPlay,
 }) {
@@ -32,6 +33,11 @@ function TrackContainer({
 
   const handlePreviewClick = () => {
     console.log('spotifyPreview: ', spotifyPreview);
+    if (activeSong[0] === spotifyPreview) {
+      setActiveSong(['']);
+      setHowlerPlay(false);
+      return;
+    }
     setActiveSong([spotifyPreview]);
     setHowlerPlay(true);
   };
@@ -57,7 +63,11 @@ function TrackContainer({
         className={styles.previewButton}
         onClick={() => handlePreviewClick()}
       >
-        <TrackPreview available={available} spotifyPreview={spotifyPreview} />
+        <TrackPreview
+          available={available}
+          spotifyPreview={spotifyPreview}
+          activeSong={activeSong}
+        />
       </button>
     </div>
   );
