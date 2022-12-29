@@ -41,7 +41,13 @@ spotifyController.getUserID = (req, res, next) => {
       res.locals.userID = userID;
       return next();
     })
-    .catch((error) => console.log(error));
+    .catch((error) => {
+      console.log('here is where the error occurs: ', error.response.status);
+      // TODO: Handle 403 Access Denied Error
+      return res.status(201).send(`<script>
+        window.close()
+        </script>`);
+    });
 };
 
 spotifyController.createUserPlaylist = (req, res, next) => {
