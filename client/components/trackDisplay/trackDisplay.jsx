@@ -58,7 +58,7 @@ function TrackDisplay({
         </button>
       )}
       {loadMoreTracks && requestMoreDisplayData}
-      <ReactHowler playing={howlerPlay} src={activeSong} format={['mp3']} />
+      <ReactHowler playing={howlerPlay} src={activeSong} format={['mp3']} html5 />
     </>
   );
 }
