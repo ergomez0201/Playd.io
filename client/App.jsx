@@ -9,16 +9,16 @@ import Footer from './routes/footer/footer';
 import styles from './App.scss';
 
 function App() {
-  return (
-    <div className={styles.pageContainer}>
-      <Routes>
-        <Route path="/" element={<Navbar />}>
-          <Route index element={<Music />} />
-        </Route>
-      </Routes>
-      <Footer />
-    </div>
-  );
+	return (
+		<div className={styles.pageContainer}>
+			<Routes>
+				<Route path="/" element={<Navbar />}>
+					<Route index element={<Music />} />
+				</Route>
+			</Routes>
+			<Footer />
+		</div>
+	);
 }
 
 export default App;
