@@ -3,18 +3,18 @@
 *,
 *::before,
 *::after {
-  margin: 0;
-  padding: 0;
-  box-sizing: inherit;
+	margin: 0;
+	padding: 0;
+	box-sizing: inherit;
 }
 
 html {
-  box-sizing: border-box;
-  font-family: Nunito, Arial, Helvetica, sans-serif;
+	box-sizing: border-box;
+	font-family: Nunito, Arial, Helvetica, sans-serif;
 }
 
 ::placeholder {
-  color: #BABABA;
-  font-weight: 200;
-  font-style: italic;
+	color: #bababa;
+	font-weight: 200;
+	font-style: italic;
 }

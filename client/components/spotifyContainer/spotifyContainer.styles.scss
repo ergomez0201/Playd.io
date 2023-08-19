@@ -1,121 +1,121 @@
 .playlistTitle {
-  margin: 1rem auto;
-  padding: .5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  border: none;
-  outline: none;
-  border-radius: 16px;
+	margin: 1rem auto;
+	padding: 0.5rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	border: none;
+	outline: none;
+	border-radius: 16px;
 
-  width: 90%;
-  // max-width: 30rem;
-  text-align: center;
-  font-size: 1rem;
-  background-color: rgb(224, 224, 224, .5);
-  p{
-    align-self: center;
-    margin: 0 1rem 1rem;
-    text-align: center;
-    width: 80%;
-    span {
-      color: #005A9C;
-      font-weight: bold;
-    }
-  }
-  input {
-    color: rgb(0, 0, 0);
-    border: none;
-    border-bottom: 1.5px solid #BABABA;
-    outline: none;
-    margin: 0 auto;
-    padding: .5rem;
-    width: 90%;
-    max-width: 30rem;
-    text-align: center;
-    font-size: 1rem;
-    font-weight: bold;
-    display: block;
-    background-color: inherit;
-  }
+	width: 90%;
+	// max-width: 30rem;
+	text-align: center;
+	font-size: 1rem;
+	background-color: rgb(224, 224, 224, 0.5);
+	p {
+		align-self: center;
+		margin: 0 1rem 1rem;
+		text-align: center;
+		width: 80%;
+		span {
+			color: #005a9c;
+			font-weight: bold;
+		}
+	}
+	input {
+		color: rgb(0, 0, 0);
+		border: none;
+		border-bottom: 1.5px solid #bababa;
+		outline: none;
+		margin: 0 auto;
+		padding: 0.5rem;
+		width: 90%;
+		max-width: 30rem;
+		text-align: center;
+		font-size: 1rem;
+		font-weight: bold;
+		display: block;
+		background-color: inherit;
+	}
 }
 
 .spotifyLoginButton {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 25%;
-    min-width: 8rem;
-    max-width: 10rem;
-    margin: 2rem auto;
-    padding: 0.8rem;
-    background-color: #1DB954;
-    color: white;
-    font-size: 1.2rem;
-    border: none;
-    border-radius: 10px;
-    transition-duration: 0.4s;
-  }
-  button:hover {
-    opacity: 80%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 25%;
+	min-width: 8rem;
+	max-width: 10rem;
+	margin: 2rem auto;
+	padding: 0.8rem;
+	background-color: #1db954;
+	color: white;
+	font-size: 1.2rem;
+	border: none;
+	border-radius: 10px;
+	transition-duration: 0.4s;
+}
+button:hover {
+	opacity: 80%;
 }
 
 .spotifyLogo {
-    width: 18%;
-    min-width: 6rem;
-    display: block;
-    margin: 2rem auto;
+	width: 18%;
+	min-width: 6rem;
+	display: block;
+	margin: 2rem auto;
 }
 
 .spotifyIcon {
-  width: 20%;
-  display: inline;
-  margin-right: .2rem;
+	width: 20%;
+	display: inline;
+	margin-right: 0.2rem;
 }
 
 .playlistAndLogout {
-  display: flex;
-  width: 50%;
-  margin: 1rem auto;
-  justify-content: center;
-  flex-wrap: wrap;
+	display: flex;
+	width: 50%;
+	margin: 1rem auto;
+	justify-content: center;
+	flex-wrap: wrap;
 }
 
 .createPlaylistButton {
-  display: inline;
-  width: 50%;
-  min-width: 9rem;
-  max-width: 10rem;
-  margin: 1rem auto;
-  padding: 0.8rem;
-  border-radius: 10px;
-  background-color: #005A9C;
-  color: white;
-  font-size: 1.1rem;
+	display: inline;
+	width: 50%;
+	min-width: 9rem;
+	max-width: 10rem;
+	margin: 1rem auto;
+	padding: 0.8rem;
+	border-radius: 10px;
+	background-color: #005a9c;
+	color: white;
+	font-size: 1.1rem;
 }
 
 .spotifyLogoutButton {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 25%;
-  min-width: 8rem;
-  max-width: 10rem;
-  margin: 1rem auto;
-  padding: 0.8rem;
-  border: 4px solid #000;
-  background-color: white;
-  color: #000;
-  font-weight: 700;
-  font-size: 1.1rem;
-  transition-duration: 0.4s;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 25%;
+	min-width: 8rem;
+	max-width: 10rem;
+	margin: 1rem auto;
+	padding: 0.8rem;
+	border: 4px solid #000;
+	background-color: white;
+	color: #000;
+	font-weight: 700;
+	font-size: 1.1rem;
+	transition-duration: 0.4s;
 }
 
 .spotifyLogoutButton:hover {
-    background-color: #000;
-    color: white;
+	background-color: #000;
+	color: white;
 }
 
 .devMode {
-  font-size: .8rem;
+	font-size: 0.8rem;
 }

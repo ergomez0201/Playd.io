@@ -1,50 +1,50 @@
 .showDisplay {
-  width: 90%;
-  max-width: 30rem;
-  min-width: 25rem;
-  // margin: 0 auto;
-  text-align: left;
-  margin-top: 3rem;
+	width: 90%;
+	max-width: 30rem;
+	min-width: 25rem;
+	// margin: 0 auto;
+	text-align: left;
+	margin-top: 3rem;
 
-  h2{
-    text-align: center;
-    font-size: 1.4rem;
-  }
+	h2 {
+		text-align: center;
+		font-size: 1.4rem;
+	}
 
-  form {
-    width: 80%;
-    margin: 2rem auto;
+	form {
+		width: 80%;
+		margin: 2rem auto;
 
-    label {
-      font-size: 1.2rem;
-      font-weight: bold;
-    }
+		label {
+			font-size: 1.2rem;
+			font-weight: bold;
+		}
 
-    select {
-      width: 70%;
-      max-width: 30rem;
-      text-align: left;
-      border: none;
-      border-bottom: 1px solid #BABABA;
-      font-weight: 200;
-      font-size: 1rem;
-      .programOptions {
-        display: inline-block;
-        background-color: #F4F4F4;
-        padding: 5rem;
-        border-bottom: 1px solid white;
-      }
-    }
-  }
+		select {
+			width: 70%;
+			max-width: 30rem;
+			text-align: left;
+			border: none;
+			border-bottom: 1px solid #bababa;
+			font-weight: 200;
+			font-size: 1rem;
+			.programOptions {
+				display: inline-block;
+				background-color: #f4f4f4;
+				padding: 5rem;
+				border-bottom: 1px solid white;
+			}
+		}
+	}
 }
 
 .showDisplayButton {
-  display: block;
-  width: 80%;
-  margin: 0 auto;
-  padding: 0.5rem;
-  border-radius: 10px;
-  background-color: #005A9C;
-  color: white;
-  font-size: 1.2rem;
+	display: block;
+	width: 80%;
+	margin: 0 auto;
+	padding: 0.5rem;
+	border-radius: 10px;
+	background-color: #005a9c;
+	color: white;
+	font-size: 1.2rem;
 }

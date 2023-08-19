@@ -7,64 +7,69 @@ import TrackContainer from '../trackContainer/trackContainer';
 import styles from './trackDisplay.styles.scss';
 
 function TrackDisplay({
-  spotifyTrackList,
-  setSpotifyTracklist,
-  setLoadMoreTracks,
-  loadMoreTracks,
+	spotifyTrackList,
+	setSpotifyTracklist,
+	setLoadMoreTracks,
+	loadMoreTracks,
 }) {
-  const [activeSong, setActiveSong] = useState(['']);
-  const [howlerPlay, setHowlerPlay] = useState(false);
+	const [activeSong, setActiveSong] = useState(['']);
+	const [howlerPlay, setHowlerPlay] = useState(false);
 
-  const trackDisplayData = spotifyTrackList.map((track, i) => (
-    <TrackContainer
-      key={track.playId}
-      index={i}
-      title={track.title}
-      artist={track.artist}
-      album={track.album}
-      available={track.available}
-      include={track.include}
-      spotifyId={track.spotifyId}
-      spotifyPreview={track.spotifyPreview}
-      spotifyTrackList={spotifyTrackList}
-      setSpotifyTracklist={setSpotifyTracklist}
-      activeSong={activeSong}
-      setActiveSong={setActiveSong}
-      setHowlerPlay={setHowlerPlay}
-    />
-  ));
+	const trackDisplayData = spotifyTrackList.map((track, i) => (
+		<TrackContainer
+			key={track.playId}
+			index={i}
+			title={track.title}
+			artist={track.artist}
+			album={track.album}
+			available={track.available}
+			include={track.include}
+			spotifyId={track.spotifyId}
+			spotifyPreview={track.spotifyPreview}
+			spotifyTrackList={spotifyTrackList}
+			setSpotifyTracklist={setSpotifyTracklist}
+			activeSong={activeSong}
+			setActiveSong={setActiveSong}
+			setHowlerPlay={setHowlerPlay}
+		/>
+	));
 
-  const initialDisplayData = trackDisplayData.slice(0, 11);
-  const requestMoreDisplayData = trackDisplayData.slice(11);
+	const initialDisplayData = trackDisplayData.slice(0, 11);
+	const requestMoreDisplayData = trackDisplayData.slice(11);
 
-  return (
-    <>
-      <div className={styles.trackDisplay}>
-        <p>No.</p>
-        <p>Title | Artists</p>
-        <p>Album</p>
-        <p>Preview</p>
-      </div>
-      {initialDisplayData}
-      {!loadMoreTracks && (
-        <button
-          className={styles.loadMoreButton}
-          type="button"
-          onClick={() => {
-            setLoadMoreTracks(true);
-          }}
-        >
-          LOAD MORE
-        </button>
-      )}
-      {loadMoreTracks && requestMoreDisplayData}
-      <ReactHowler playing={howlerPlay} src={activeSong} format={['mp3']} html5 />
-    </>
-  );
+	return (
+		<>
+			<div className={styles.trackDisplay}>
+				<p>No.</p>
+				<p>Title | Artists</p>
+				<p>Album</p>
+				<p>Preview</p>
+			</div>
+			{initialDisplayData}
+			{!loadMoreTracks && (
+				<button
+					className={styles.loadMoreButton}
+					type="button"
+					onClick={() => {
+						setLoadMoreTracks(true);
+					}}
+				>
+					LOAD MORE
+				</button>
+			)}
+			{loadMoreTracks && requestMoreDisplayData}
+			<ReactHowler
+				playing={howlerPlay}
+				src={activeSong}
+				format={['mp3']}
+				html5
+			/>
+		</>
+	);
 }
 
 TrackDisplay.propTypes = {
-  spotifyTrackList: PropTypes.arrayOf(PropTypes.object).isRequired,
+	spotifyTrackList: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default TrackDisplay;

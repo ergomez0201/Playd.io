@@ -1,31 +1,32 @@
 .trackDisplay {
-  width: 90%;
-  padding: .5rem;
-  margin: 0 auto;
-  font: inherit;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) repeat(2, minmax(0, 3fr)) minmax(0, 2fr);
-  background-color: #005A9C;
-  color: white;
-  text-align: left;
+	width: 90%;
+	padding: 0.5rem;
+	margin: 0 auto;
+	font: inherit;
+	display: grid;
+	grid-template-columns: minmax(0, 1fr) repeat(2, minmax(0, 3fr)) minmax(0, 2fr);
+	background-color: #005a9c;
+	color: white;
+	text-align: left;
 
-  :first-child, :last-child {
-    text-align: center;
-  }
+	:first-child,
+	:last-child {
+		text-align: center;
+	}
 }
 
 .loadMoreButton {
-  display: block;
-  margin: 1.5rem auto;
-  padding: .8rem;
-  border: 4px solid #005A9C;
-  background-color: white;
-  color: #005A9C;
-  font-weight: 700;
-  transition-duration: 0.4s;
+	display: block;
+	margin: 1.5rem auto;
+	padding: 0.8rem;
+	border: 4px solid #005a9c;
+	background-color: white;
+	color: #005a9c;
+	font-weight: 700;
+	transition-duration: 0.4s;
 }
 
 .loadMoreButton:hover {
-    background-color: #005A9C;
-    color: white;
+	background-color: #005a9c;
+	color: white;
 }

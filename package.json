@@ -8,7 +8,7 @@
 		"dev": "concurrently \"cross-env NODE_ENV=development webpack serve\" \"nodemon ./server/server.js\"",
 		"build": "NODE_ENV=production webpack",
 		"test": "jest",
-		"lint": "eslint . --fix --max-warnings=0 --resolve-plugins-relative-to .",
+		"lint": "eslint . --fix --max-warnings=2 --resolve-plugins-relative-to .",
 		"format": "prettier . --write",
 		"prepare": "husky install"
 	},

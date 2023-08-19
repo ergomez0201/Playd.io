@@ -1,19 +1,19 @@
 .mainContainer {
-  background-color: white;
-  flex-grow: 2;
-  max-width: 60rem;
-  margin-bottom: 5rem;
+	background-color: white;
+	flex-grow: 2;
+	max-width: 60rem;
+	margin-bottom: 5rem;
 }
 
 .backArrow {
-  display: flex;
-  background-color: inherit;
-  border: none;
-  justify-content: center;
-  align-items: center;
-  width: 50%;
-  margin: 2rem auto 0;
-  font-size: 1.2rem;
-  font-weight: 700;
-  cursor: pointer;
+	display: flex;
+	background-color: inherit;
+	border: none;
+	justify-content: center;
+	align-items: center;
+	width: 50%;
+	margin: 2rem auto 0;
+	font-size: 1.2rem;
+	font-weight: 700;
+	cursor: pointer;
 }

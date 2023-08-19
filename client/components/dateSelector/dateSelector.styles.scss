@@ -2,27 +2,25 @@
 @import url('https://cdnjs.cloudflare.com/ajax/libs/react-datepicker/2.8.0/react-datepicker.min.css');
 
 .dateContainer {
-  margin: 2rem auto;
-  width: 80%;
+	margin: 2rem auto;
+	width: 80%;
 
-  input {
-    width: 100%;
-    text-align: left;
-    border: none;
-    font-weight: 400;
-    font-size: 1rem;
-  }
-  
-  strong {
-    font-size: 1.2rem;
-  }
+	input {
+		width: 100%;
+		text-align: left;
+		border: none;
+		font-weight: 400;
+		font-size: 1rem;
+	}
 
+	strong {
+		font-size: 1.2rem;
+	}
 }
 
 .datePicker {
-  width: 80%;
-  max-width: 26rem;
-  text-align: left;
-  border-bottom: 1.5px solid #BABABA;
+	width: 80%;
+	max-width: 26rem;
+	text-align: left;
+	border-bottom: 1.5px solid #bababa;
 }
-
